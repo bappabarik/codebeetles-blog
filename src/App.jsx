@@ -12,18 +12,19 @@ import { setInitialTheme } from './store/themeSlice'
 function App() {
   const [loading, setLoading] = useState(true)
   const progress = useSelector(state => state.progressBar.progress)
+  const status = useSelector(state => state.auth.status)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    authService.getPreferences()
-    .then(theme => {
+      authService.getPreferences()
+      .then(theme => {
       if (theme) {
         document.querySelector('body').classList.add("dark")
       } else {
         document.querySelector('body').classList.add("light")
       }
       dispatch(setInitialTheme(theme))
-    })
+      })
   })
 
   useEffect(() => {
