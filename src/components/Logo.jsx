@@ -8,9 +8,9 @@ const Logo = ({width = '100px'}) => {
         <div className='cursor-pointer'>
             {
             theme ?  (
-                <img src="/src/assets/logo.png" alt="Codebeetle-Blog" width={width} className='dark:mix-blend-screen px-2 hover:animate-pulse'/>
+                <img src="/assets/logo.png" alt="Codebeetle-Blog" width={width} className='dark:mix-blend-screen px-2 hover:animate-pulse'/>
             )  : (
-                <img src="/src/assets/logo-light.png" alt="Codebeetle-Blog" width={width} className='dark:mix-blend-screen px-2 hover:animate-pulse'/>
+                <img src="/assets/logo-light.png" alt="Codebeetle-Blog" width={width} className='dark:mix-blend-screen px-2 hover:animate-pulse'/>
             )
             } 
         </div>
