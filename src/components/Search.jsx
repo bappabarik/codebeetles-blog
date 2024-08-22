@@ -34,7 +34,7 @@ const Search = ({posts}) => {
                     </div>
                     <input
                     onChange={handleSearch}
-                    type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border outline-none border-gray-300 rounded-full bg-gray-50 dark:bg-transparent  focus:border-green-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-green-500" placeholder="Search Mockups, Logos..." required />
+                    type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border outline-none border-gray-300 rounded-full bg-gray-50 dark:bg-transparent  focus:border-green-500 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-green-500" placeholder="Search blogs..." required />
                 </div>
             </div>
             {
