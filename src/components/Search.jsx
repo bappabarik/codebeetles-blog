@@ -39,11 +39,11 @@ const Search = ({posts}) => {
             </div>
             {
                     searchResult.length !== 0  &&  (
-                        <ul className='dark:text-slate-100 dark:backdrop-blur-2xl bg-gray-100 dark:bg-transparent border-[1px] dark:border-slate-400 border-slate-400 w-full rounded-lg shadow-md'>
+                        <ul className='dark:text-slate-100 text-slate-700 backdrop-blur-2xl  bg-gray-200 dark:bg-transparent border-[1px] dark:border-slate-400 border-slate-400 w-full rounded-lg shadow-md absolute z-20 max-w-96 right-0 left-0 m-auto'>
                             {
                                 searchResult.map(item => (
                                     <Link to={`/post/${item.$id}`}>
-                                    <li className='border-b-[1px] p-4 cursor-pointer rounded-lg dark:border-slate-200 border-slate-400 hover:bg-gray-500' key ={item.$id}>
+                                    <li className='border-b-[1px] p-4 cursor-pointer rounded-lg dark:border-slate-200 border-slate-400 hover:bg-gray-500 hover:text-white' key ={item.$id}>
                                         {
                                             item.title
                                         }
