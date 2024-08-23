@@ -67,7 +67,6 @@ const Post = () => {
             .catch(error => console.log(error))
 
             formatDateTime(`${post.$createdAt}`)
-            console.log(post.$createdAt);
         }
     }, [post])
     
@@ -77,8 +76,11 @@ const Post = () => {
         <div className='py-8'>
             <Container>
                 <div className=" border-b-[1px] border-slate-400 flex justify-between pb-1 mb-6 items-center">
-                <span className='dark:text-slate-400 text-slate-700 md:text-sm text-xs'>
+                <span className='dark:text-slate-400 text-slate-700 md:text-sm text-xs text-center self-center'>
                 🖋️ {`${author} : ${timeStamp}`}
+                {
+                    post.status === "active" ? (<span className='text-[8px] text-center self-center ml-1'>🟢</span>): (<span className='text-[8px] text-center self-center ml-1'>🔴</span>)
+                }
                 </span>
                 {
                     isAuthor && (

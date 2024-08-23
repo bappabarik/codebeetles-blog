@@ -12,8 +12,8 @@ import { setInitialTheme } from './store/themeSlice'
 function App() {
   const [loading, setLoading] = useState(true)
   const progress = useSelector(state => state.progressBar.progress)
-  const status = useSelector(state => state.auth.status)
   const dispatch = useDispatch()
+
 
   useEffect(() => {
       authService.getPreferences()
@@ -23,9 +23,12 @@ function App() {
       } else {
         document.querySelector('body').classList.add("light")
       }
+      console.log("status", theme);
+      
       dispatch(setInitialTheme(theme))
-      })
-  })
+    })
+    
+  }, [])
 
   useEffect(() => {
     dispatch(addProgress(0))

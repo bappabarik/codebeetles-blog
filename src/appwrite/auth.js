@@ -58,9 +58,7 @@ export class AuthService {
     
     async updatePreferences(theme){
         try {
-            const promise = await this.account.updatePrefs({darkTheme: theme});
-            console.log(promise);
-            
+            const promise = await this.account.updatePrefs({darkTheme: theme});            
             return promise
         } catch (error) {
             console.log(error);
@@ -71,10 +69,13 @@ export class AuthService {
     async getPreferences(){
         try {
             const prefs = await this.account.getPrefs();
+            if (prefs.darkTheme === undefined) {
+                return false
+            }
             return prefs.darkTheme;
           } catch (error) {
             console.error("Error fetching preferences:", error);
-            return true; // Return a default value (e.g., true for light mode) if there’s an error
+            return false;
           }
     }
 }

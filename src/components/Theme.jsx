@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTheme } from "../store/themeSlice";
-import authService from "../appwrite/auth";
-import { json } from "react-router-dom";
 
 const Theme = () => {
-//   const [theme, setTheme] = useState(true);
-const theme = useSelector(state => state.theme.theme)
+  const theme = useSelector(state => state.theme.theme)
   const dispatch = useDispatch()
 
   const handleTheme = () => {

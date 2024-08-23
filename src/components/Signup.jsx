@@ -3,14 +3,15 @@ import authService from '../appwrite/auth'
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../store/authSlice';
 import {Button, Input, Logo} from './index'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 const Signup = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const theme = useSelector(state => state.theme.theme)
     const [error, setError] = useState('')
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm()
 
     const create = async(data) => {
         setError('')
@@ -20,7 +21,6 @@ const Signup = () => {
             if (userData) {
                 const userData = await authService.getCurrentUser()
                 if (userData) dispatch(login(userData))
-
                 navigate('/')
             }
         } catch (error) {
@@ -52,31 +52,52 @@ const Signup = () => {
                     label="Full Name:"
                     placeholder="Enter your full name"
                     {...register("name", {
-                        required: true,
+                        required: {value: true, message: "!Full Name is required"},
                     })}
                     />
+                    {
+                        errors.name && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.name.message}</span>)
+                    }
                     <Input
                     label="Email:"
                     placeholder="Enter your email"
                     type="email"
                     {...register("email", {
-                        required: true,
+                        required: {value: true, message: "!Email is required"},
                         validate: {
                             matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address",
                         }
                     })}
                     />
+                    {
+                        errors.email && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.email.message}</span>)
+                    }
                     <Input
                     label="Password:"
                     placeholder="Create a password"
                     type="password"
                     {...register("password", {
-                        required: true,             
-                    })} 
+                        required: {
+                          value: true,
+                          message: "!Password is required"
+                        },
+                        minLength: {value: 8, message: "Password should be minimum 8 characters"},
+                        validate: {
+                          hasSpecialChar: (value) =>
+                            /[!@#$%^&*(),.?":{}|<>]/.test(value) || "Password must contain at least one special character",
+                          hasDigit: (value) =>
+                            /\d/.test(value) || "Password must contain at least one digit",
+                          hasAlphabet: (value) =>
+                            /[a-zA-Z]/.test(value) || "Password must contain at least one alphabetic character",
+                        }})} 
                     />
+                    {
+                        errors.password && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.password.message}</span>)
+                    }
                     <Button
                     type="submit"
-                    className="w-full px-4 py-2 rounded-lg"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-2 rounded-lg ${isSubmitting ? 'bg-opacity-60':null}`}
                     >Sign up</Button>
                 </div>
             </form>

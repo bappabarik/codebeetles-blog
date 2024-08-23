@@ -13,13 +13,15 @@ const EditPost = () => {
             appwriteService.getPost(slug)
             .then((post) => {
                 if (post) {
-                    setPosts(post)
+                    setPosts({...post, slug})
                 }
             })
         } else {
             navigate('/')
         }
     }, [slug, navigate]);
+
+    
     
 
     return post ? (

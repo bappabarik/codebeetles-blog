@@ -10,7 +10,7 @@ import { addProgress } from '../store/progressBarSlice';
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm()
     const [error, setError] = useState('')
 
     const login = async (data) => {
@@ -59,23 +59,30 @@ const Login = () => {
                     placeholder="Enter your email"
                     type="email"
                     {...register("email", {
-                        required: true,
+                        required: {value: true, message: "!Email Address is required"},
                         validate: {
                             matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address",
                         }
                     })}
                     />
+                    {
+                        errors.email && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.email.message}</span>)
+                    }
                     <Input
                     label="Password:"
                     placeholder="Enter your password"
                     type="password"
                     {...register("password", {
-                        required: true,             
+                        required: {value: true, message: "!Password is required"},             
                     })} 
                     />
+                    {
+                        errors.password && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.password.message}</span>)
+                    }
                     <Button
                     type="submit"
-                    className="w-full px-4 py-2 rounded-lg"
+                    disabled={isSubmitting}
+                    className={`w-full px-4 py-2 rounded-lg ${isSubmitting ? 'bg-opacity-60':null}`}
                     >Sign in</Button>
                 </div>
             </form>

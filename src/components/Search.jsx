@@ -29,7 +29,7 @@ const Search = ({posts}) => {
                 <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
                     <input
@@ -41,7 +41,7 @@ const Search = ({posts}) => {
                     searchResult.length !== 0  &&  (
                         <ul className='dark:text-slate-100 text-slate-700 backdrop-blur-2xl  bg-gray-200 dark:bg-transparent border-[1px] dark:border-slate-400 border-slate-400 w-full rounded-lg shadow-md absolute z-20 max-w-96 right-0 left-0 m-auto'>
                             {
-                                searchResult.map(item => (
+                                searchResult?.map(item => (
                                     <Link to={`/post/${item.$id}`}>
                                     <li className='border-b-[1px] p-4 cursor-pointer rounded-lg dark:border-slate-200 border-slate-400 hover:bg-gray-500 hover:text-white' key ={item.$id}>
                                         {

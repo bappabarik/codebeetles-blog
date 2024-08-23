@@ -4,6 +4,7 @@ const Input = React.forwardRef(({
     label,
     type = 'text',
     className = '',
+    defaultValue = "",
     ...props
 }, ref) => {
     const id = useId()
