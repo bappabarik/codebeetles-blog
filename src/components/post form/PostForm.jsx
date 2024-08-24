@@ -44,7 +44,8 @@ const PostForm = ({post}) => {
                 $id: data.slug,
                 ...data,
                 featuredImage: file ? file.$id : post.featuredImage,
-                userId: userData.$id
+                userId: userData.$id,
+                like: post.like
                 });
 
             
@@ -77,7 +78,7 @@ const PostForm = ({post}) => {
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id, like: 0 });
 
                 // dispatch(addProgress(80))
 
@@ -190,3 +191,5 @@ const PostForm = ({post}) => {
 }
 
 export default PostForm;
+
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta dolores provident cupiditate commodi fugit sed quaerat vitae repellendus sunt optio minima qui laborum officia aperiam quis expedita, quidem autem sint libero et? Veritatis modi, sapiente neque, excepturi quod nam harum laudantium ea impedit ab, atque magni fugiat corporis aliquid id amet! Beatae dicta, adipisci eligendi sequi est nesciunt! Vitae doloremque minus suscipit quisquam alias ex quae nam tenetur eveniet est facere fuga provident numquam nostrum atque enim voluptates perferendis et ipsa ducimus, quis dolorem, commodi rem sed! Laborum earum, voluptate, eaque veritatis sed vitae dolor dolore vel, reprehenderit architecto libero.
