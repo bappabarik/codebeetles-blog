@@ -66,7 +66,7 @@ const Login = () => {
                     })}
                     />
                     {
-                        errors.email && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.email.message}</span>)
+                        errors.email && (<span className='dark:text-red-200 text-red-600 mt-2'>{errors.email.message}</span>)
                     }
                     <Input
                     label="Password:"
@@ -77,7 +77,7 @@ const Login = () => {
                     })} 
                     />
                     {
-                        errors.password && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.password.message}</span>)
+                        errors.password && (<span className='dark:text-red-200 text-red-600 mt-2'>{errors.password.message}</span>)
                     }
                     <Button
                     type="submit"

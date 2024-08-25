@@ -46,10 +46,10 @@ const Home = () => {
                 </p>
                 <div className="flex justify-center space-x-4">
                 <Button
-                onClick={() => navigate('/login')} className='px-6 py-2 duration-200 hover:bg-opacity-30 border border-blue-500 bg-blue-500 bg-opacity-20 text-blue-700 dark:text-blue-500 font-mono text-lg m-2'>
+                onClick={() => navigate('/login')} className='px-6 py-2 duration-200 hover:bg-opacity-90 rounded-md bg-blue-500 text-white text-lg m-2'>
                     Log In
                 </Button>
-                <Button onClick={() => navigate('/signup')} className="px-6 py-2 duration-200 hover:bg-opacity-30 border border-green-500 bg-green-500 bg-opacity-20 text-green-800 dark:text-green-600 font-mono text-lg m-2">
+                <Button onClick={() => navigate('/signup')} className="px-6 py-2 duration-200 hover:bg-opacity-90 bg-green-600 rounded-md text-lg m-2">
                     Sign Up
                 </Button>
                 </div>
@@ -75,7 +75,7 @@ const Home = () => {
                             </h1>
                             <button 
                                 onClick={() => navigate('/add-post')}
-                                className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+                                className='inline-bock px-6 py-2 duration-200 dark:text-white hover:bg-blue-100 rounded-full'
                                 >
                                     Add post
                             </button>

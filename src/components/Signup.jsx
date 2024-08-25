@@ -55,7 +55,7 @@ const Signup = () => {
                     })}
                     />
                     {
-                        errors.name && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.name.message}</span>)
+                        errors.name && (<span className='dark:text-red-200 text-red-600 mt-2'>{errors.name.message}</span>)
                     }
                     <Input
                     label="Email:"
@@ -69,7 +69,7 @@ const Signup = () => {
                     })}
                     />
                     {
-                        errors.email && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.email.message}</span>)
+                        errors.email && (<span className='dark:text-red-200 text-red-600 mt-2'>{errors.email.message}</span>)
                     }
                     <Input
                     label="Password:"
@@ -91,7 +91,7 @@ const Signup = () => {
                         }})} 
                     />
                     {
-                        errors.password && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.password.message}</span>)
+                        errors.password && (<span className='dark:text-red-200 text-red-600 mt-2'>{errors.password.message}</span>)
                     }
                     <Button
                     type="submit"

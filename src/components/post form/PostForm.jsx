@@ -127,7 +127,7 @@ const PostForm = ({post}) => {
             })}
             />
             {
-                errors.title && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.title.message}</span>)
+                errors.title && (<span className='text-red-600 mt-2'>{errors.title.message}</span>)
             }
            <Input
                 label="Slug :"
@@ -143,7 +143,7 @@ const PostForm = ({post}) => {
                 }}
             />
             {
-                errors.slug && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.slug.message}</span>)
+                errors.slug && (<span className='text-red-600 mt-2'>{errors.slug.message}</span>)
             }
             <RTE 
             label="Content :"
@@ -161,7 +161,7 @@ const PostForm = ({post}) => {
                 {...register("image", {required: {value: !post, message: "Image is required"}})}
             />
             {
-                errors.image && (<span className='dark:text-red-200 text-red-500 mt-1'>{errors.image.message}</span>)
+                errors.image && (<span className='text-red-600 mt-2'>{errors.image.message}</span>)
             }
             {post && (
                 <div className="w-full mb-4">
