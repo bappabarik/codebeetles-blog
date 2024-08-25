@@ -9,6 +9,7 @@ const Home = () => {
     const [posts, setPosts] = useState([])
     const status = useSelector(state => state.auth.status)
     const loading = useSelector(state => state.progressBar.loading)
+    const userData = useSelector(state => state.auth.userData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     
@@ -32,6 +33,7 @@ const Home = () => {
 
         
     }, []);
+    
 
     if (!status) {
         return (
@@ -87,7 +89,13 @@ const Home = () => {
             <div className='w-full pb-8'>
             <Container>
                 <div className="text-white p-5  bg-gradient-to-r from-cyan-600 to-green-700 mb-4">
-                    <h1 className=' text-4xl font-bold leading-relaxed'>Welcome to Codebeetles Blog</h1>
+                    <h1 className=' text-4xl font-bold leading-relaxed'>
+                        Hi {" "}
+                        {
+                            userData.name
+                        },
+                        <br/>
+                        Welcome to Codebeetles Blog</h1>
                     <p>Unleash your coding potential with our latest tips, tutorials, and insights. Dive into the world of development and stay ahead with expert knowledge tailored for you.</p>
                     <a href="#latest-posts" className="cta-button">Explore Latest Posts</a>
                 </div>
