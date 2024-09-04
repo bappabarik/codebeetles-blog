@@ -35,7 +35,7 @@ export class Service{
         }
     }
 
-    async updatePost( slug, {title, content, featuredImage, status, like, userIds}){
+    async updatePost( slug, {title, content, featuredImage, status, likes, likeIds}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -46,8 +46,8 @@ export class Service{
                     content,
                     featuredImage,
                     status,
-                    like,
-                    userIds
+                    likes,
+                    likeIds
                 }
             )
         } catch (error) {
@@ -92,6 +92,65 @@ export class Service{
         } catch (error) {
             console.log("Appwrite service :: getPosts :: error", error);
             return false;
+        }
+    }
+
+    async isLikeExist(slug, userId){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteLikesCollectionId,
+                [Query.equal("slug", slug), Query.equal("userId", userId)]
+            )
+            
+        } catch (error) {
+            console.log("Appwrite service :: isLikeExist :: error", error);
+        }
+    }
+
+    async newLike(slug, userId){
+        try {
+            const isLikeExist = this.isLikeExist(slug, userId)  
+
+            return new Promise((resolve, reject) => {
+            isLikeExist
+            .then(data => {
+                if (data.documents.length === 0){
+                    const like = this.databases.createDocument(
+                        conf.appwriteDatabaseId,
+                        conf.appwriteLikesCollectionId,
+                        ID.unique(),
+                        {
+                            slug,
+                            userId
+                        }
+                    )
+                    resolve(like)
+                } else {
+                    this.deleteLike(data.documents[0].$id)
+                    resolve(false)
+                }
+            })
+            .catch(error =>{ 
+                console.log(error)
+                reject(error)
+            })
+            })
+            
+        } catch (error) {
+            console.log("Appwrite service :: newLike :: error", error);
+        }
+    }
+
+    async deleteLike(id){
+        try {
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteLikesCollectionId,
+                id
+            )
+        } catch (error) {
+            console.log("Appwrite service :: deleteLike :: error", error); 
         }
     }
 
