@@ -9,8 +9,10 @@ import sdkService from '../appwrite/sdk';
 
 const Post = () => {
     const [post, setPost] = useState(null);
-    const [likes, setLikes] = useState('')
+    const [likes, setLikes] = useState()
+    const [likeId, setLikeId] = useState('')
     const [isLiked, setIsLiked] = useState(false)
+    const [btnLoading, setBtnLoading] = useState(false)
     const [author, setAuthor] = useState('fetching..')
     const [timeStamp, setTimeStamp] = useState('')
     const { slug } = useParams()
@@ -27,9 +29,21 @@ const Post = () => {
             .then((post) => {
                 if(post) {
                     setPost(post)
-                    setLikes(post.like)
-                    const find = post.userIds.find(user => user === userData.$id)
-                    find ? setIsLiked(true) : setIsLiked(false)
+
+                    //after getting the post loading the likes in the state in number formate
+                    setLikes(post.likes)
+                    
+                    const find = appwriteService.isLikeExist(slug, userData.$id)
+                    find.then(data => { 
+                        if(data.documents.length > 0) {
+                            setIsLiked(true)
+                            setLikeId(data.documents[0].$id)
+                        } else {
+                            setIsLiked(false)
+                            setLikeId('')
+                        }
+                    })
+                    .catch(error => console.log("Error finding liked id:", error))
                 }
                 else {
                     navigate("/")
@@ -37,6 +51,8 @@ const Post = () => {
                 dispatch(addProgress(100))
                 dispatch(setLoading(false))
             })
+
+        
         } else navigate("/")
     }, [slug, navigate]);
 
@@ -45,6 +61,7 @@ const Post = () => {
         .then(status => {
             if(status){
                 appwriteService.deleteFile(post.featuredImage)
+                likeId && appwriteService.deleteLike(likeId)
                 navigate("/")
             }
         }) 
@@ -78,41 +95,60 @@ const Post = () => {
         }
     }, [post])
 
-    // useEffect(() => {
-    //     const find = post.userIds.find(user => user === userData.$id)
-    //     find ? setIsLiked(true) : setIsLiked(false)
-    // }, [post]);
 
-    const updateLikes = async () => {
-        const find = await post.userIds.find(user => user === userData.$id)
-        
-        if (find) {
-            const updatedPost = appwriteService.updatePost(slug, {
-                like: `${Number(post.like) - 1}`,
-                userIds: post.userIds.filter(user => user !== find)
-            })
+    const updateLikes = () => {
+        if (btnLoading) return
+        setBtnLoading(true)
+        appwriteService.newLike(slug, userData.$id)
+        .then(data => 
+        {   
+            if (data) {
+                setLikes(likes + 1);
+                setIsLiked(true);
+                setLikeId(data.$id);
+                const updatedPost = appwriteService.updatePost(slug, {
+                    likes: likes + 1,
+                    likeIds: [...post.likeIds, data.$id]
+                })
 
-            updatedPost.then(data => {
-                setLikes(data.like)
-                setPost(data)
-                setIsLiked(false)
-            })
-        } else {
-            const updatedPost = appwriteService.updatePost(slug, {
-                like: `${Number(post.like) + 1}`,
-                userIds: [...post.userIds, userData.$id]
-            })
-            updatedPost.then(data => {
-                setLikes(data.like)
-                setPost(data)
-                setIsLiked(true)
-            })
-        }
-        
+                updatedPost.then(updatedData => {
+                    setPost(updatedData)
+                    setBtnLoading(false)
+                })
+                .catch(error => {
+                    console.log("updatePost",error)
+                    setLikes(likes - 1)
+                    setIsLiked(false)
+                    setLikeId('')
+                    setLoading(false)
+                }
+                )
+            } else {
+                setLikes(likes - 1);
+                setIsLiked(false);
+                const updatedPost = appwriteService.updatePost(slug, {
+                    likes: likes - 1,
+                    likeIds: post.likeIds.filter(id => id !== likeId)
+                })
+    
+                updatedPost.then(updatedData => {
+                    setPost(updatedData);
+                    setBtnLoading(false);
+                    setLikeId('');
+                })
+                .catch(error => {
+                    console.log("updatePost", error);
+                    setLikes(likes + 1);
+                    setIsLiked(true);
+                    setBtnLoading(false);
+                });
+            }
+        })
+        .catch(error => {
+            console.log("newLike", error);
+            setLoading(false);
+        });
     }
-    
-    
-    // console.log(`${post.like}`);
     
     return post ? (
         <div className='py-8'>
@@ -162,17 +198,29 @@ const Post = () => {
                         {parse(post.content)}
                     </div>
                 </div>
-                { post.like && (
+                <div className="flex gap-4">
+                
                         <div className="mt-5">
                             <Button
                             onClick={updateLikes}
-                            className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'>
+                            className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'
+                            disabled={btnLoading}
+                            >
                             <i className={`${ isLiked ? 'fa-solid' : 'fa-regular' } fa-heart text-2xl `}></i>
                             {"  "}
                             {likes}
                             </Button>
+                        </div>
+                {/* { post.like && (
+                        <div className="mt-5">
+                            <Button
+                            onClick={updateLikes}
+                            className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'>
+                            <i className={`${ isLiked ? 'fa-solid' : 'fa-regular' } fa-bookmark text-2xl `}></i>
+                            </Button>
                         </div>)
-                }
+                } */}
+                </div>
             </Container>
         </div>
     ) : (<div className=" h-screen w-full flex items-center justify-center">
