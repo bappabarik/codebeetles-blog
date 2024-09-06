@@ -12,7 +12,10 @@ const Post = () => {
     const [likes, setLikes] = useState()
     const [likeId, setLikeId] = useState('')
     const [isLiked, setIsLiked] = useState(false)
-    const [btnLoading, setBtnLoading] = useState(false)
+    const [isSaved, setIsSaved] = useState(false)
+    const [saveId, setSaveId] = useState('')
+    const [likeBtnDisable, setLikeBtnDisable] = useState(false)
+    const [saveBtnDisable, setSaveBtnDisable] = useState(false)
     const [author, setAuthor] = useState('fetching..')
     const [timeStamp, setTimeStamp] = useState('')
     const { slug } = useParams()
@@ -33,14 +36,26 @@ const Post = () => {
                     //after getting the post loading the likes in the state in number formate
                     setLikes(post.likes)
                     
-                    const find = appwriteService.isLikeExist(slug, userData.$id)
-                    find.then(data => { 
+                    const findLikes = appwriteService.getLikes(slug, userData.$id)
+                    findLikes.then(data => { 
                         if(data.documents.length > 0) {
                             setIsLiked(true)
                             setLikeId(data.documents[0].$id)
                         } else {
                             setIsLiked(false)
                             setLikeId('')
+                        }
+                    })
+                    .catch(error => console.log("Error finding liked id:", error))
+
+                    const findSavedPost = appwriteService.getSavedPosts(slug, userData.$id)
+                    findSavedPost.then(data => { 
+                        if(data.documents.length > 0) {
+                            setIsSaved(true)
+                            setSaveId(data.documents[0].$id)
+                        } else {
+                            setIsSaved(false)
+                            setSaveId('')
                         }
                     })
                     .catch(error => console.log("Error finding liked id:", error))
@@ -62,6 +77,7 @@ const Post = () => {
             if(status){
                 appwriteService.deleteFile(post.featuredImage)
                 likeId && appwriteService.deleteLike(likeId)
+                saveId && appwriteService.deleteSavedPost(saveId)
                 navigate("/")
             }
         }) 
@@ -97,8 +113,8 @@ const Post = () => {
 
 
     const updateLikes = () => {
-        if (btnLoading) return
-        setBtnLoading(true)
+        if (likeBtnDisable) return
+        setLikeBtnDisable(true)
         appwriteService.newLike(slug, userData.$id)
         .then(data => 
         {   
@@ -113,14 +129,14 @@ const Post = () => {
 
                 updatedPost.then(updatedData => {
                     setPost(updatedData)
-                    setBtnLoading(false)
+                    setLikeBtnDisable(false)
                 })
                 .catch(error => {
                     console.log("updatePost",error)
                     setLikes(likes - 1)
                     setIsLiked(false)
                     setLikeId('')
-                    setLoading(false)
+                    setLikeBtnDisable(false)
                 }
                 )
             } else {
@@ -133,21 +149,64 @@ const Post = () => {
     
                 updatedPost.then(updatedData => {
                     setPost(updatedData);
-                    setBtnLoading(false);
+                    setLikeBtnDisable(false);
                     setLikeId('');
                 })
                 .catch(error => {
                     console.log("updatePost", error);
                     setLikes(likes + 1);
                     setIsLiked(true);
-                    setBtnLoading(false);
+                    setLikeBtnDisable(false);
                 });
             }
         })
         .catch(error => {
             console.log("newLike", error);
-            setLoading(false);
+            setLikeBtnDisable(false);
         });
+    }
+
+    const savePost = () => {
+        if (saveBtnDisable) return
+        setSaveBtnDisable(true)
+        appwriteService.savePost(slug, userData.$id)
+        .then(data => {
+            if(data) {
+                setIsSaved(true)
+                setSaveId(data.$id)
+
+                const updatedPost = appwriteService.updatePost(slug, {
+                    saveIds: [...post.saveIds, data.$id]
+                })
+
+                updatedPost.then(updatedData => {
+                    setPost(updatedData)
+                    setSaveBtnDisable(false)
+                })
+                .catch(error => {
+                    console.log("updatePost", error)
+                    setIsSaved(false)
+                    setSaveId('')
+                    setSaveBtnDisable(false)
+                })
+            } else {
+                setIsSaved(false)
+                const updatedPost = appwriteService.updatePost(slug, {
+                    saveIds: post.saveIds.filter(id => id !== saveId)
+                })
+
+                updatedPost.then(updatedData => {
+                    setPost(updatedData)
+                    setSaveBtnDisable(false)
+                    setSaveId('')
+                })
+                .catch(error => {
+                    console.log("updatePost", error)
+                    setIsSaved(true)
+                    setSaveBtnDisable(false)
+                })
+            }
+        })
     }
     
     return post ? (
@@ -204,22 +263,22 @@ const Post = () => {
                             <Button
                             onClick={updateLikes}
                             className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'
-                            disabled={btnLoading}
+                            disabled={likeBtnDisable}
                             >
                             <i className={`${ isLiked ? 'fa-solid' : 'fa-regular' } fa-heart text-2xl `}></i>
                             {"  "}
                             {likes}
                             </Button>
                         </div>
-                {/* { post.like && (
                         <div className="mt-5">
                             <Button
-                            onClick={updateLikes}
-                            className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'>
-                            <i className={`${ isLiked ? 'fa-solid' : 'fa-regular' } fa-bookmark text-2xl `}></i>
+                            onClick={savePost}
+                            className='text-white px-4 py-3 bg-slate-500 rounded-lg text-xl'
+                            disabled={saveBtnDisable}
+                            >
+                            <i className={`${ isSaved ? 'fa-solid' : 'fa-regular' } fa-bookmark text-2xl `}></i>
                             </Button>
-                        </div>)
-                } */}
+                        </div>
                 </div>
             </Container>
         </div>

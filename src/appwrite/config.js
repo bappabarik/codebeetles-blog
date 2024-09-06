@@ -35,7 +35,7 @@ export class Service{
         }
     }
 
-    async updatePost( slug, {title, content, featuredImage, status, likes, likeIds}){
+    async updatePost( slug, {title, content, featuredImage, status, likes, likeIds, saveIds}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -47,7 +47,8 @@ export class Service{
                     featuredImage,
                     status,
                     likes,
-                    likeIds
+                    likeIds,
+                    saveIds
                 }
             )
         } catch (error) {
@@ -95,22 +96,24 @@ export class Service{
         }
     }
 
-    async isLikeExist(slug, userId){
+    async getLikes(slug, userId, queries = [Query.equal("slug", slug), Query.equal("userId", userId)]){
         try {
+            console.log(queries);
+            
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteLikesCollectionId,
-                [Query.equal("slug", slug), Query.equal("userId", userId)]
+                queries
             )
             
         } catch (error) {
-            console.log("Appwrite service :: isLikeExist :: error", error);
+            console.log("Appwrite service :: getLikes :: error", error);
         }
     }
 
     async newLike(slug, userId){
         try {
-            const isLikeExist = this.isLikeExist(slug, userId)  
+            const isLikeExist = this.getLikes(slug, userId)  
 
             return new Promise((resolve, reject) => {
             isLikeExist
@@ -151,6 +154,65 @@ export class Service{
             )
         } catch (error) {
             console.log("Appwrite service :: deleteLike :: error", error); 
+        }
+    }
+
+    async getSavedPosts(slug, userId, queries = [Query.equal("slug", slug), Query.equal("userId", userId)]){
+        try {
+            console.log(queries);
+            
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteSaveCollectionId,
+                queries
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getSavedPosts :: error", error);
+        }
+    }
+
+    async savePost(slug, userId){
+        try {
+            const isPostSaved = this.getSavedPosts(slug, userId)
+            return new Promise((resolve, reject) => {
+                isPostSaved
+                .then(data => {
+                    if (data.documents.length === 0){
+                        const save = this.databases.createDocument(
+                            conf.appwriteDatabaseId,
+                            conf.appwriteSaveCollectionId,
+                            ID.unique(),
+                            {
+                                slug,
+                                userId
+                            }
+                        )
+                        resolve(save)
+                    } else {
+                        this.deleteSavedPost(data.documents[0].$id)
+                        resolve(false)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    reject(error)
+                })
+            })
+        } catch (error) {
+            console.log("Appwrite service :: savePost :: error", error);
+            
+        }
+    }
+
+    async deleteSavedPost(id){
+        try {
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteSaveCollectionId,
+                id
+            )
+        } catch (error) {
+            console.log("Appwrite service :: deleteSavedPost :: error", error);
         }
     }
 
