@@ -4,9 +4,11 @@ import { Button, Container, Loader, Logo, PostCard, Search } from '../components
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProgress, setLoading } from '../store/progressBarSlice';
+import { setPosts } from '../store/postSlice';
 
 const Home = () => {
-    const [posts, setPosts] = useState([])
+    // const [posts, setPosts] = useState([])
+    const posts = useSelector(state => state.post.posts)
     const status = useSelector(state => state.auth.status)
     const loading = useSelector(state => state.progressBar.loading)
     const userData = useSelector(state => state.auth.userData)
@@ -19,7 +21,8 @@ const Home = () => {
         appwriteService.getPosts()
         .then((posts) => {
             if (posts) {
-                setPosts(posts.documents)
+                dispatch(setPosts(posts.documents))
+                // setPosts(posts.documents)
             }
             dispatch(addProgress(100))
         })
