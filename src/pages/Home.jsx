@@ -16,7 +16,6 @@ const Home = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     
-    
     useEffect(() => {
         if (postStatus === "loading") {
             dispatch(setLoading(true));
@@ -61,7 +60,7 @@ const Home = () => {
         <>
         
         {
-        posts.length === 0 ? (
+        posts && posts.length === 0 ? (
             <div className="w-full py-8 mt-4 text-center max-h-screen ">
                  <Container>
                      <div className="flex flex-wrap">

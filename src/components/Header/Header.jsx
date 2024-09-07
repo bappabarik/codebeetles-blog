@@ -14,7 +14,7 @@ const Header = () => {
     const navigate = useNavigate()
     const navItems = [
         {
-            name: (<><i className="fa-solid fa-home"></i> <span className='md:inline hidden'>Home</span></>),
+            name: (<><i className="fa-solid fa-home md:p-0 p-2"></i> <span className='md:inline hidden'>Home</span></>),
             slug: '/',
             active: true
         },
@@ -30,7 +30,7 @@ const Header = () => {
             active: !authStatus
         },
         {
-            name: (<><i className="fa-regular fa-square-plus text-xl"></i> <span className='md:inline hidden'>Add Post</span></>),
+            name: (<><i className="fa-regular fa-square-plus text-xl md:p-0 px-2 py-1"></i> <span className='md:inline hidden'>Add Post</span></>),
             slug: '/add-post',
             active: authStatus
         }
@@ -77,7 +77,7 @@ const Header = () => {
             <Container>
                     {/* <div className={isOpen ? "w-full h-screen absolute z-10 top-0 left-0 bottom-0  bg-slate-900 bg-opacity-60" : ""}>
                     </div> */}
-                <nav className='nav-menu flex justify-between'>
+                <nav className='nav-menu flex justify-between gap-2'>
                     <div className="mr-4 flex items-center">
                         <Link to='/'>
                         <Logo width='200px' />
@@ -115,7 +115,8 @@ const Header = () => {
                                 <li key={item.slug} className='w-full p-3 '>
                                     <NavLink
                                     to={item.slug}
-                                    className={({isActive}) => ` ${isActive ? 'bg-green-700 text-white' : '' } p-4 hover:bg-green-700 rounded-md  dark:text-white hover:text-white cursor-pointer transition-all delay-100`
+                                    onClick={() => setIsProfileBtnClicked(false)}
+                                    className={({isActive}) => ` ${isActive ? 'bg-green-700 text-white' : '' } p-3 hover:bg-green-700 rounded-md  dark:text-white hover:text-white cursor-pointer transition-all delay-100`
                                     } 
                                     >
                                         {item.name}

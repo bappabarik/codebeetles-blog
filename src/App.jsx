@@ -13,12 +13,16 @@ import { fetchPosts } from './store/postSlice'
 function App() {
   const [loading, setLoading] = useState(true)
   const progress = useSelector(state => state.progressBar.progress)
+  const status = useSelector(state => state.auth.status)
+  const postStatus = useSelector(state => state.post.postStatus)
   const dispatch = useDispatch()
 
       
   useEffect(() => {  
-    dispatch(fetchPosts()); // Fetch posts when status is idle or succeeded
-}, [dispatch]);
+    if (postStatus === 'idle' || postStatus === 'succeeded') {
+      dispatch(fetchPosts()); // Fetch posts when status is idle or succeeded
+    }
+}, [dispatch, status]);
 
   useEffect(() => {
       authService.getPreferences()
