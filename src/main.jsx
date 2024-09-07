@@ -17,6 +17,9 @@ import EditPost from "./pages/EditPost";
 import Post from "./pages/Post";
 
 import AllPosts from "./pages/AllPosts";
+import Profile from './pages/Profile.jsx'
+import LikedPosts from './pages/LikedPosts.jsx'
+import SavedPosts from './pages/SavedPosts.jsx'
 
 const router = createBrowserRouter([
   {
@@ -67,6 +70,33 @@ const router = createBrowserRouter([
                 <AuthLayout authentication>
                     {" "}
                     <EditPost />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/profile",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <Profile />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/liked-posts",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <LikedPosts />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/saved-posts",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <SavedPosts />
                 </AuthLayout>
             ),
         },

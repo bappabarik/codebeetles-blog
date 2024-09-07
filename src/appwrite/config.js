@@ -15,7 +15,7 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId, like}){
+    async createPost({title, slug, content, featuredImage, status, userId, likes, likeIds, saveIds}){
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -27,7 +27,9 @@ export class Service{
                     featuredImage,
                     status,
                     userId,
-                    like
+                    likes,
+                    likeIds,
+                    saveIds
                 }
             )
         } catch (error) {
@@ -98,7 +100,7 @@ export class Service{
 
     async getLikes(slug, userId, queries = [Query.equal("slug", slug), Query.equal("userId", userId)]){
         try {
-            console.log(queries);
+            // console.log(queries);
             
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -159,7 +161,7 @@ export class Service{
 
     async getSavedPosts(slug, userId, queries = [Query.equal("slug", slug), Query.equal("userId", userId)]){
         try {
-            console.log(queries);
+            // console.log(queries);
             
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,

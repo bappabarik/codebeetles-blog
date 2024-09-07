@@ -1,41 +1,32 @@
-import React, {useState, useEffect} from 'react';
-import appwriteService from "../appwrite/config";
+import React, {useEffect} from 'react';
+// import appwriteService from "../appwrite/config";
 import { Button, Container, Loader, Logo, PostCard, Search } from '../components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProgress, setLoading } from '../store/progressBarSlice';
-import { setPosts } from '../store/postSlice';
+import { fetchPosts } from '../store/postSlice';
 
 const Home = () => {
-    // const [posts, setPosts] = useState([])
     const posts = useSelector(state => state.post.posts)
+    const postStatus = useSelector(state => state.post.postStatus)
+    const error = useSelector(state => state.post.error)
     const status = useSelector(state => state.auth.status)
     const loading = useSelector(state => state.progressBar.loading)
     const userData = useSelector(state => state.auth.userData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     
+    
     useEffect(() => {
-        dispatch(setLoading(true))
-        dispatch(addProgress(20))
-        appwriteService.getPosts()
-        .then((posts) => {
-            if (posts) {
-                dispatch(setPosts(posts.documents))
-                // setPosts(posts.documents)
-            }
-            dispatch(addProgress(100))
-        })
-        .catch((error) => {
-            console.log(error);
-            dispatch(addProgress(100))
-        })
-        .finally(() => {
-            dispatch(setLoading(false))
-        })
-
+        if (postStatus === "loading") {
+            dispatch(setLoading(true));
+            dispatch(addProgress(50));
+        } else {
+            dispatch(setLoading(false));
+            dispatch(addProgress(100));
+        }
         
-    }, []);
+    }, [postStatus, dispatch]);
     
 
     if (!status) {
@@ -106,7 +97,7 @@ const Home = () => {
                     <Search posts={posts} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4">
-                    {posts.map((post) => (
+                    {posts?.map((post) => (
                         <div className="p-2" key={post.$id}>
                             <PostCard {...post} />    
                         </div>

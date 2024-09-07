@@ -8,12 +8,17 @@ import { Outlet } from 'react-router-dom'
 import LoadingBar from 'react-top-loading-bar'
 import { addProgress } from './store/progressBarSlice'
 import { setInitialTheme } from './store/themeSlice'
+import { fetchPosts } from './store/postSlice'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const progress = useSelector(state => state.progressBar.progress)
   const dispatch = useDispatch()
 
+      
+  useEffect(() => {  
+    dispatch(fetchPosts()); // Fetch posts when status is idle or succeeded
+}, [dispatch]);
 
   useEffect(() => {
       authService.getPreferences()

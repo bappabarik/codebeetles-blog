@@ -22,7 +22,7 @@ const Post = () => {
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData)
     const isAuthor = post && userData ? post.userId === userData.$id : false;
-    const dispatch = useDispatch()
+    const dispatch = useDispatch()    
 
     useEffect(() => {
         if (slug) {
