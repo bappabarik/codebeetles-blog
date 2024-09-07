@@ -4,7 +4,6 @@ import {Button, Input, RTE, Select} from '../index'
 import appwriteService from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { addProgress } from '../../store/progressBarSlice'
 
 const PostForm = ({post}) => {
     const {register, handleSubmit, watch, setValue, control, getValues, formState: {errors, isSubmitting}} = useForm({
@@ -21,21 +20,14 @@ const PostForm = ({post}) => {
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
 
-    const submit = async (data) => {
-        // dispatch(addProgress(10))
-        // console.log("clicked...");
-        
+    const submit = async (data) => {      
         setLoading(true)
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
-            // dispatch(addProgress(30))
-
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
             }
-
-            // dispatch(addProgress(60))
 
             if (post.slug !== data.slug) {
                 appwriteService.deletePost(post.$id)
@@ -48,9 +40,6 @@ const PostForm = ({post}) => {
                 like: post.like
                 });
 
-            
-                // dispatch(addProgress(80))
-
                 if (dbPost) {
                 navigate(`/post/${dbPost.$id}`);
                 }
@@ -59,9 +48,6 @@ const PostForm = ({post}) => {
                     ...data,
                     featuredImage: file ? file.$id : undefined,
                 });
-    
-                
-                // dispatch(addProgress(80))
     
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -73,21 +59,16 @@ const PostForm = ({post}) => {
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
 
-            // dispatch(addProgress(50))
-
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
                 const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id, like: 0 });
-
-                // dispatch(addProgress(80))
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
             }
         }
-        // dispatch(addProgress(100))
         setLoading(false)
     };
 
@@ -191,5 +172,3 @@ const PostForm = ({post}) => {
 }
 
 export default PostForm;
-
-// Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta dolores provident cupiditate commodi fugit sed quaerat vitae repellendus sunt optio minima qui laborum officia aperiam quis expedita, quidem autem sint libero et? Veritatis modi, sapiente neque, excepturi quod nam harum laudantium ea impedit ab, atque magni fugiat corporis aliquid id amet! Beatae dicta, adipisci eligendi sequi est nesciunt! Vitae doloremque minus suscipit quisquam alias ex quae nam tenetur eveniet est facere fuga provident numquam nostrum atque enim voluptates perferendis et ipsa ducimus, quis dolorem, commodi rem sed! Laborum earum, voluptate, eaque veritatis sed vitae dolor dolore vel, reprehenderit architecto libero.

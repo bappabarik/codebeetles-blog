@@ -16,13 +16,12 @@ function App() {
   const status = useSelector(state => state.auth.status)
   const postStatus = useSelector(state => state.post.postStatus)
   const dispatch = useDispatch()
-
       
   useEffect(() => {  
     if (postStatus === 'idle' || postStatus === 'succeeded') {
       dispatch(fetchPosts()); // Fetch posts when status is idle or succeeded
     }
-}, [dispatch, status]);
+}, [dispatch, status, ]);
 
   useEffect(() => {
       authService.getPreferences()

@@ -15,6 +15,12 @@ const Home = () => {
     const userData = useSelector(state => state.auth.userData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (postStatus === 'idle' || postStatus === 'succeeded') {
+            dispatch(fetchPosts()); 
+          }
+    }, [navigate]);
     
     useEffect(() => {
         if (postStatus === "loading") {
