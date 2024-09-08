@@ -4,6 +4,7 @@ import {Button, Input, RTE, Select} from '../index'
 import appwriteService from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { addPost, removePost, updatePost } from '../../store/postSlice';
 
 const PostForm = ({post}) => {
     const {register, handleSubmit, watch, setValue, control, getValues, formState: {errors, isSubmitting}} = useForm({
@@ -31,6 +32,7 @@ const PostForm = ({post}) => {
 
             if (post.slug !== data.slug) {
                 appwriteService.deletePost(post.$id)
+                dispatch(removePost(post))
 
                 const dbPost = await appwriteService.createPost({
                 $id: data.slug,
@@ -41,6 +43,7 @@ const PostForm = ({post}) => {
                 });
 
                 if (dbPost) {
+                dispatch(addPost(dbPost))
                 navigate(`/post/${dbPost.$id}`);
                 }
             } else {
@@ -50,6 +53,7 @@ const PostForm = ({post}) => {
                 });
     
                 if (dbPost) {
+                    dispatch(updatePost(dbPost))
                     navigate(`/post/${dbPost.$id}`);
                 }
             }
@@ -65,6 +69,7 @@ const PostForm = ({post}) => {
                 const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id, like: 0 });
 
                 if (dbPost) {
+                    dispatch(addPost(dbPost))
                     navigate(`/post/${dbPost.$id}`);
                 }
             }

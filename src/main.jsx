@@ -7,6 +7,8 @@ import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import { AuthLayout } from './components/index.js'
+import ActivePosts from './pages/ActivePosts.jsx'
+import InactivePosts from './pages/InactivePosts.jsx'
 
 
 import AddPost from "./pages/AddPost";
@@ -20,6 +22,8 @@ import AllPosts from "./pages/AllPosts";
 import Profile from './pages/Profile.jsx'
 import LikedPosts from './pages/LikedPosts.jsx'
 import SavedPosts from './pages/SavedPosts.jsx'
+import Dashboard from './pages/Dashboard.jsx'
+import MyPosts from './pages/MyPosts.jsx'
 
 const router = createBrowserRouter([
   {
@@ -81,6 +85,44 @@ const router = createBrowserRouter([
                     <Profile />
                 </AuthLayout>
             ),
+        },
+        {
+            path: "/dashboard",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <Dashboard />
+                </AuthLayout>
+            )
+        },
+        {
+            path: "/my-posts",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <MyPosts />
+                </AuthLayout>
+            ),
+            children: [
+                {
+                    path: "/my-posts/active-posts",
+                    element: (
+                        <AuthLayout authentication>
+                            {" "}
+                            <ActivePosts />
+                        </AuthLayout>
+                    ),
+                },
+                {
+                    path: "/my-posts/inactive-posts",
+                    element: (
+                        <AuthLayout authentication>
+                            {" "}
+                            <InactivePosts />
+                        </AuthLayout>
+                    ),
+                }
+            ]
         },
         {
             path: "/liked-posts",

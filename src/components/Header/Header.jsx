@@ -42,6 +42,14 @@ const Header = () => {
             slug: '/profile'
         },
         {
+            name: 'Dashboard',
+            slug: '/dashboard'
+        },
+        {
+            name: 'My Posts',
+            slug: '/my-posts'
+        },
+        {
             name: 'All Posts',
             slug: 'all-posts',
             active: authStatus
