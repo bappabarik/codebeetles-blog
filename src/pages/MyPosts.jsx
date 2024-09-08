@@ -15,18 +15,18 @@ const MyPosts = () => {
     return (
         <Container>
         {/* Adjusted the layout for better responsiveness */}
-        <div className="fixed left-0 top-[4.7rem] z-10 w-full h-auto bg-slate-900 shadow text-left flex items-center justify-between px-8 py-6 md:px-20 md:py-8">
+        <div className="fixed left-0 top-[4.7rem] z-10 w-full h-auto bg-slate-900 shadow text-left flex flex-wrap gap-2 items-center justify-between px-8 py-6 md:px-20 md:py-8">
             <h1 className="dark:text-white text-lg md:text-2xl">My Posts</h1>
             <div className="flex items-center justify-center">
             <NavLink 
                 to="/my-posts/active-posts"
-                className={({isActive}) => `md:px-4 md:py-2 px-2 py-1 mr-1 md:text-lg text-sm rounded-md ${isActive ? 'bg-green-700' : 'bg-gray-500'} text-white`}>
+                className={({isActive}) => `md:px-4 md:py-2 px-3 py-2 mr-1 md:text-lg text-sm rounded-md ${isActive ? 'bg-green-700' : 'bg-gray-500'} text-white`}>
                 Active Posts
             </NavLink>
 
             <NavLink 
                 to="/my-posts/inactive-posts" 
-                className={({isActive}) => `md:px-4 md:py-2 px-2 py-1 mr-1 md:text-lg text-sm rounded-md ${isActive ? 'bg-green-700' : 'bg-gray-500'} text-white`}>
+                className={({isActive}) => `md:px-4 md:py-2 px-3 py-2 mr-1 md:text-lg text-sm rounded-md ${isActive ? 'bg-green-700' : 'bg-gray-500'} text-white`}>
                 Inactive Posts
             </NavLink>
             </div>
