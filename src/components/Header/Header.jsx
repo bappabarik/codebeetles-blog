@@ -81,7 +81,7 @@ const Header = () => {
     }, [profileMenuRef]);
    
     return (
-        <header className='py-3 px-3 z-10 fixed w-full shadow bg-white dark:bg-slate-800'>
+        <header className='py-3 px-3 z-20 fixed w-full shadow bg-white dark:bg-slate-800'>
             <Container>
                     {/* <div className={isOpen ? "w-full h-screen absolute z-10 top-0 left-0 bottom-0  bg-slate-900 bg-opacity-60" : ""}>
                     </div> */}
