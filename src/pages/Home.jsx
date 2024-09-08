@@ -106,7 +106,7 @@ const Home = () => {
                     <p>Unleash your coding potential with our latest tips, tutorials, and insights. Dive into the world of development and stay ahead with expert knowledge tailored for you.</p>
                     <a href="#latest-posts" className="cta-button">Explore Latest Posts</a>
                 </div>
-                <div className=" p-8 mb-8">
+                <div className=" py-8 my-6 sticky z-10 top-[4.7rem] dark:bg-slate-900 bg-gray-50 w-full">
                     <Search posts={posts} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4">
