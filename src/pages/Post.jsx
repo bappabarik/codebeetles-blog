@@ -6,6 +6,7 @@ import appwriteService from "../appwrite/config"
 import { Button, Container, Loader } from '../components';
 import { addProgress, setLoading } from '../store/progressBarSlice';
 import sdkService from '../appwrite/sdk';
+import { removePost } from '../store/postSlice';
 
 const Post = () => {
     const [post, setPost] = useState(null);
@@ -78,6 +79,7 @@ const Post = () => {
                 appwriteService.deleteFile(post.featuredImage)
                 likeId && appwriteService.deleteLike(likeId)
                 saveId && appwriteService.deleteSavedPost(saveId)
+                dispatch(removePost(post))
                 navigate("/")
             }
         }) 
