@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 // import appwriteService from "../appwrite/config";
 import { Button, Container, Loader, Logo, PostCard, Search } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProgress, setLoading } from '../store/progressBarSlice';
-import { fetchPosts } from '../store/postSlice';
+// import { fetchPosts } from '../store/postSlice';
 
 const Home = () => {
     const posts = useSelector(state => state.post.posts)
@@ -15,12 +15,13 @@ const Home = () => {
     const userData = useSelector(state => state.auth.userData)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [activePosts, setActivePosts] = useState([])
 
-    useEffect(() => {
-        if (postStatus === 'idle' || postStatus === 'succeeded') {
-            dispatch(fetchPosts()); 
-          }
-    }, [navigate]);
+    // useEffect(() => {
+    //     if (postStatus === 'idle' || postStatus === 'succeeded') {
+    //         dispatch(fetchPosts()); 
+    //       }
+    // }, [navigate]);
     
     useEffect(() => {
         if (postStatus === "loading") {
@@ -32,6 +33,13 @@ const Home = () => {
         }
         
     }, [postStatus, dispatch]);
+
+    useEffect(() => {
+        const allActivePosts = posts.filter(post => post.status === 'active')
+        if (allActivePosts) {
+            setActivePosts(allActivePosts)
+        }
+    }, [posts])
     
 
     if (!status) {
@@ -102,7 +110,7 @@ const Home = () => {
                     <Search posts={posts} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4">
-                    {posts?.map((post) => (
+                    {activePosts?.map((post) => (
                         <div className="p-2" key={post.$id}>
                             <PostCard {...post} />    
                         </div>
@@ -120,3 +128,4 @@ const Home = () => {
     }
 
 export default Home;
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia expedita temporibus quibusdam sunt? Veritatis voluptatum sunt ea at omnis doloremque doloribus adipisci, explicabo quibusdam dignissimos esse officia debitis rem minima modi suscipit natus non fugiat in blanditiis assumenda quidem totam. Nulla dolorum veniam error fuga totam iste soluta quis repellendus placeat enim officia natus, cupiditate deserunt tempora incidunt inventore ipsam perferendis deleniti esse facere repellat ipsum laboriosam. Quo repellat laboriosam consequuntur qui eum officiis ad, maiores debitis magnam quas quod, quaerat deleniti. Omnis sit aliquid vel maxime, fugit iusto fugiat consectetur enim mollitia. Tempore sequi veritatis nam, at commodi nulla.
