@@ -33,5 +33,5 @@ export {
     AuthLayout,
     Loader,
     Theme,
-    Search
+    Search,
 }
