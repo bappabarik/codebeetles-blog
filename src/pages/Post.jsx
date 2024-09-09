@@ -6,7 +6,7 @@ import appwriteService from "../appwrite/config"
 import { Button, Container, Loader } from '../components';
 import { addProgress, setLoading } from '../store/progressBarSlice';
 import sdkService from '../appwrite/sdk';
-import { removePost } from '../store/postSlice';
+import { removePost, updatePost } from '../store/postSlice';
 
 const Post = () => {
     const [post, setPost] = useState(null);
@@ -130,6 +130,7 @@ const Post = () => {
                 })
 
                 updatedPost.then(updatedData => {
+                    dispatch(updatePost(updatedData))
                     setPost(updatedData)
                     setLikeBtnDisable(false)
                 })
@@ -150,6 +151,7 @@ const Post = () => {
                 })
     
                 updatedPost.then(updatedData => {
+                    dispatch(updatePost(updatedData))
                     setPost(updatedData);
                     setLikeBtnDisable(false);
                     setLikeId('');
