@@ -12,9 +12,9 @@ const Theme = () => {
   };
 
   return (
-    <div className="m-2">
+    <div className="">
       <button
-        className="h-8 w-8 m-auto border-[1px] border-slate-300 dark:border-slate text-slate-100 rounded-md transition-all duration-300 flex items-center justify-center"
+        className="h-8 w-8 m-auto border-[1px] border-slate-300 dark:border-slate text-slate-100 rounded-md transition-all duration-300 flex items-center justify-center cursor-pointer"
         onClick={handleTheme}
       >
         {theme ? (

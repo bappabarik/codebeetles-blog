@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {Container, Logo, LogoutBtn, Theme} from '../index'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { act } from 'react';
 
 
 const Header = () => {
@@ -19,40 +20,35 @@ const Header = () => {
             active: true
         },
         {
+            name: (<><i className="fa-regular fa-square-plus text-xl md:p-0 px-2 py-1"></i> <span className='md:inline hidden'>Add Post</span></>),
+            slug: '/add-post',
+            active: authStatus
+        },
+        {
+            name: (<li className='flex items-center justify-center gap-2 hover:bg-transparent'><span className='md:inline hidden dark:text-white text-black'>Theme: </span><Theme /></li>),
+            slug: '',
+            active: true
+        },
+        {
             name: 'Signup',
             slug: '/signup',
             active: !authStatus
         },
-        {
-            name: 'Login',
-            icon: '➡',
-            slug: '/login',
-            active: !authStatus
-        },
-        {
-            name: (<><i className="fa-regular fa-square-plus text-xl md:p-0 px-2 py-1"></i> <span className='md:inline hidden'>Add Post</span></>),
-            slug: '/add-post',
-            active: authStatus
-        }
     ]
 
     const profile = [
         {
-            name: 'Profile',
+            name: (<><i class="fa-solid fa-user"></i> Profile</>),
             slug: '/profile'
         },
         {
-            name: 'Dashboard',
-            slug: '/dashboard'
-        },
-        {
-            name: 'My Posts',
-            slug: '/my-posts'
-        },
-        {
-            name: 'All Posts',
+            name: (<><i class="fa-solid fa-list"></i> All Posts</>),
             slug: 'all-posts',
             active: authStatus
+        },
+        {
+            name: (<><i class="fa-solid fa-pen"></i> My Posts</>),
+            slug: '/my-posts'
         },
         {
             name: (<><i className="fa-solid fa-heart"></i> Liked Posts</>),
@@ -61,7 +57,11 @@ const Header = () => {
         {
             name: (<><i className="fa-solid fa-bookmark"></i> Saved Posts</>),
             slug: '/saved-posts'
-        }
+        },
+        {
+            name: (<><i class="fa-solid fa-chart-simple"></i> Dashboard</>),
+            slug: '/dashboard'
+        },
     ]
 
     useEffect(() => {
@@ -74,6 +74,7 @@ const Header = () => {
         };
 
         document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("scroll", handleClickOutside)
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -91,7 +92,7 @@ const Header = () => {
                         <Logo width='200px' />
                         </Link>
                     </div>
-                    <ul className='flex md:ml-auto items-center justify-center gap-2'>
+                    <ul className='flex md:ml-auto items-center justify-center md:gap-2'>
                         {navItems.map((item) => 
                         item.active ? (
                             <li key={item.slug} className=' md:flex md:items-center'>
@@ -99,11 +100,9 @@ const Header = () => {
                                 onClick={() => {
                                     navigate(item.slug)
                                 }}
-                                className={item.name === "Login" ? " px-6 py-2 duration-200 hover:bg-opacity-30 border border-green-500 bg-green-500 bg-opacity-20 text-green-400 font-mono text-lg m-2" :'inline-bock m-2 transition-all duration-300 ease-in-out hover:bg-green-600 dark:text-white text-slate-700 rounded-md hover:text-white  font-mono text-lg md:px-4 md:py-2'}
+                                className={`inline-bock md:m-2 transition-all duration-300 ease-in-out dark:text-white text-slate-700 rounded-md hover:text-white  font-mono text-lg md:px-4 md:py-2 px-2 py-1 ${item.slug === '' ? 'cursor-default': 'hover:bg-green-600 '}`}
                                 >
                                     {item.name}
-                                    {" "}
-                                    {item.icon && item.icon }
                                 </button>
                             </li>
                         ) : null
@@ -134,9 +133,6 @@ const Header = () => {
                         }
                         <li className='md:flex md:items-center '>
                                 <LogoutBtn />
-                        </li>
-                        <li className=' self-center'>
-                        <Theme />
                         </li>
                         </ul>
                         </div>
