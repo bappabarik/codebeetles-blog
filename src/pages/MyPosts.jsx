@@ -15,7 +15,7 @@ const MyPosts = () => {
     return (
         <Container>
         {/* Adjusted the layout for better responsiveness */}
-        <div className="fixed left-0 top-[4.5rem] z-10 w-full h-auto bg-slate-900 shadow text-left flex flex-wrap gap-2 items-center justify-between px-8 py-6 md:px-20 md:py-8">
+        <div className="fixed left-0 top-[4rem] z-10 w-full h-auto bg-slate-900 shadow text-left flex flex-wrap gap-2 items-center justify-between px-8 py-6 md:px-20 md:py-8 md:pt-12">
             <h1 className="dark:text-white text-lg md:text-2xl">My Posts</h1>
             <div className="flex items-center justify-center">
             <NavLink 
