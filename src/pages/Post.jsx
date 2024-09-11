@@ -7,6 +7,8 @@ import { Button, Container, Loader } from '../components';
 import { addProgress, setLoading } from '../store/progressBarSlice';
 import sdkService from '../appwrite/sdk';
 import { removePost, updatePost } from '../store/postSlice';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Post = () => {
     const [post, setPost] = useState(null);
@@ -15,16 +17,28 @@ const Post = () => {
     const [isLiked, setIsLiked] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [saveId, setSaveId] = useState('')
+    const [reads, setReads] = useState()
     const [likeBtnDisable, setLikeBtnDisable] = useState(false)
     const [saveBtnDisable, setSaveBtnDisable] = useState(false)
+    const [timeSpent, setTimeSpent] = useState(0);
+    const [scrolledToEnd, setScrolledToEnd] = useState(false);
     const [author, setAuthor] = useState('fetching..')
     const [timeStamp, setTimeStamp] = useState('')
     const { slug } = useParams()
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData)
     const isAuthor = post && userData ? post.userId === userData.$id : false;
-    const dispatch = useDispatch()    
+    const dispatch = useDispatch()   
+    const { pathName } = useLocation()
+    // const [country, setCountry] = useState('')
+    
+    //scroll to the top of the every time the post get clicked
+    useEffect(() => {
+        window.scrollTo(0,0)
+    }, [pathName])
 
+
+    //loading the post using getPost method with slug value then updating the states
     useEffect(() => {
         if (slug) {
             dispatch(addProgress(40))
@@ -37,6 +51,10 @@ const Post = () => {
                     //after getting the post loading the likes in the state in number formate
                     setLikes(post.likes)
                     
+                    //after getting the post loading the reads in the state in number formate
+                    setReads(post.reads)
+
+                    //check whether user is already liked it or not
                     const findLikes = appwriteService.getLikes(slug, userData.$id)
                     findLikes.then(data => { 
                         if(data.documents.length > 0) {
@@ -49,6 +67,8 @@ const Post = () => {
                     })
                     .catch(error => console.log("Error finding liked id:", error))
 
+
+                    //check whether user is already saved it or not
                     const findSavedPost = appwriteService.getSavedPosts(slug, userData.$id)
                     findSavedPost.then(data => { 
                         if(data.documents.length > 0) {
@@ -184,6 +204,7 @@ const Post = () => {
                 })
 
                 updatedPost.then(updatedData => {
+                    dispatch(updatePost(updatedData))
                     setPost(updatedData)
                     setSaveBtnDisable(false)
                 })
@@ -200,6 +221,7 @@ const Post = () => {
                 })
 
                 updatedPost.then(updatedData => {
+                    dispatch(updatePost(updatedData))
                     setPost(updatedData)
                     setSaveBtnDisable(false)
                     setSaveId('')
@@ -212,6 +234,107 @@ const Post = () => {
             }
         })
     }
+
+    useEffect(() => {
+        const startTime = Date.now();
+
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const pageHeight = document.documentElement.scrollHeight;
+    
+            // Check if the user has scrolled to 75% of the page or more
+            if (scrollPosition >= pageHeight * 0.75) {
+            setScrolledToEnd(true);
+            console.log("handleScroll running...");
+            
+            }
+        };
+
+        
+    
+        const handleRouteChange = () => {
+            const timeOnPage = Math.floor((Date.now() - startTime) / 1000); // Time in seconds
+            setTimeSpent(timeOnPage);
+            console.log("function called");
+            
+            // Increment read count only if both conditions are met
+            if (timeOnPage >= 30 && scrolledToEnd) {
+                console.log("handleBeforeload running...");
+                getCountry()
+                .then(data => {
+                    incrementReadCount(data.data.country);
+                })
+
+            }
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+        // window.addEventListener('visibilitychange', handleBeforeUnload);
+    
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            // window.removeEventListener('visibilitychange', handleBeforeUnload);
+            handleRouteChange()
+        };
+    }, [scrolledToEnd, pathName])
+
+    const getCountry = async () => {
+        return await axios.get('https://ipinfo.io/json');
+    }
+
+    const incrementReadCount = (country) => {
+
+        try {
+            const isReaderExist = appwriteService.getReaders(slug, userData.$id)
+            console.log(isReaderExist);
+            
+            if (post.userId !== userData.$id) {
+                isReaderExist.then(data => {
+
+                if (data.documents.length > 0) {
+                    const updatedPost = appwriteService.updatePost(slug, {
+                        reads: post.reads + 1,
+                    })
+    
+                    updatedPost.then((data) => {
+                        dispatch(updatePost(data))
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                } else {
+                    console.log(country);
+                    
+                    const newReader = appwriteService.createReader(slug, userData.$id, country)
+
+                    console.log(newReader);
+
+                    newReader.then(data => {
+                        if (data) {
+                            const updatedPost = appwriteService.updatePost(slug, {
+                                reads: post.reads + 1,
+                                readIds: [...post.readIds, data.$id]
+                            })
+            
+                            updatedPost.then((data) => {
+                                dispatch(updatePost(data))
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            }) 
+                        }
+                    })
+                }
+            })
+            } else {
+                console.log("Its your post");
+                
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     
     return post ? (
         <div className='py-8'>
@@ -261,8 +384,8 @@ const Post = () => {
                         {parse(post.content)}
                     </div>
                 </div>
-                <div className="flex gap-4">
-                
+                <div className="flex gap-4 items-center w-full justify-between">
+                    <div className="flex gap-4 items-center">
                         <div className="mt-5">
                             <Button
                             onClick={updateLikes}
@@ -282,6 +405,12 @@ const Post = () => {
                             >
                             <i className={`${ isSaved ? 'fa-solid' : 'fa-regular' } fa-bookmark text-2xl `}></i>
                             </Button>
+                        </div>
+                    </div>
+                        <div className="p-2">
+                            <span className='dark:text-white text-xl'>
+                                Views: {reads}
+                            </span>
                         </div>
                 </div>
             </Container>
