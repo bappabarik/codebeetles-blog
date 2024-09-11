@@ -15,7 +15,7 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId, likes, likeIds, saveIds}){
+    async createPost({title, slug, content, featuredImage, status, userId, likes, likeIds, saveIds, reads, readIds}){
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -29,7 +29,9 @@ export class Service{
                     userId,
                     likes,
                     likeIds,
-                    saveIds
+                    saveIds,
+                    reads,
+                    readIds
                 }
             )
         } catch (error) {
@@ -37,7 +39,7 @@ export class Service{
         }
     }
 
-    async updatePost( slug, {title, content, featuredImage, status, likes, likeIds, saveIds}){
+    async updatePost( slug, {title, content, featuredImage, status, likes, likeIds, saveIds, reads, readIds}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -50,7 +52,9 @@ export class Service{
                     status,
                     likes,
                     likeIds,
-                    saveIds
+                    saveIds,
+                    reads, 
+                    readIds
                 }
             )
         } catch (error) {
@@ -215,6 +219,37 @@ export class Service{
             )
         } catch (error) {
             console.log("Appwrite service :: deleteSavedPost :: error", error);
+        }
+    }
+
+    async createReader(slug, userId, country){
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteActiveReadersCollectionId,
+                ID.unique(),
+                {
+                slug,
+                userId,
+                country
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: createReader :: error", error); 
+        }
+    }
+
+
+    async getReaders(slug = '', userId = '', queries = [Query.equal("slug", slug), Query.equal("userId", userId)]){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteActiveReadersCollectionId,
+                queries
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getReaders :: error", error);
+            return false
         }
     }
 
