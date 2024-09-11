@@ -98,7 +98,7 @@ const Header = () => {
                             <li key={item.slug} className=' md:flex md:items-center'>
                                 <button 
                                 onClick={() => {
-                                    navigate(item.slug)
+                                    item.slug ? navigate(item.slug) : null
                                 }}
                                 className={`inline-bock md:m-2 transition-all duration-300 ease-in-out dark:text-white text-slate-700 rounded-md hover:text-white  font-mono text-lg md:px-4 md:py-2 px-2 py-1 ${item.slug === '' ? 'cursor-default': 'hover:bg-green-600 '}`}
                                 >
