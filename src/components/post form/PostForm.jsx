@@ -30,37 +30,33 @@ const PostForm = ({post}) => {
                 appwriteService.deleteFile(post.featuredImage);
             }
 
-            // if (post.slug !== data.slug) {
-            //     appwriteService.deletePost(post.$id)
-            //     dispatch(removePost(post))
+            if (post.slug !== data.slug) {
+                appwriteService.deletePost(post.$id)
+                dispatch(removePost(post))
 
-            //     const dbPost = await appwriteService.createPost({
-            //     $id: data.slug,
-            //     ...data,
-            //     featuredImage: file ? file.$id : post.featuredImage,
-            //     userId: userData.$id,
-            //     likes: post.likes,
-            //     likeIds: post.likeIds,
-            //     saveIds: post.saveIds,
-            //     reads: post.reads,
-            //     readIds: post.readIds
-            //     });
-            //     console.log(dbPost);
-            //     if (dbPost) {
-            //     dispatch(addPost(dbPost))
-            //     navigate(`/post/${dbPost.$id}`);
-            //     }
-            // } else {
+                const dbPost = await appwriteService.createPost({
+                $id: data.slug,
+                ...data,
+                featuredImage: file ? file.$id : post.featuredImage,
+                userId: userData.$id,
+                like: post.like
+                });
+
+                if (dbPost) {
+                dispatch(addPost(dbPost))
+                navigate(`/post/${dbPost.$id}`);
+                }
+            } else {
                 const dbPost = await appwriteService.updatePost(post.$id, {
                     ...data,
                     featuredImage: file ? file.$id : undefined,
                 });
-                // console.log(dbPost);
+    
                 if (dbPost) {
                     dispatch(updatePost(dbPost))
                     navigate(`/post/${dbPost.$id}`);
                 }
-            // }
+            }
             
             
 
@@ -70,9 +66,7 @@ const PostForm = ({post}) => {
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id});
-                // console.log(dbPost);
-                
+                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id, like: 0 });
 
                 if (dbPost) {
                     dispatch(addPost(dbPost))
