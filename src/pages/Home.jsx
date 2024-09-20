@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-// import appwriteService from "../appwrite/config";
 import { Button, Container, Loader, Logo, PostCard, Search } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProgress, setLoading } from '../store/progressBarSlice';
-// import { fetchPosts } from '../store/postSlice';
+import authService from '../appwrite/auth';
+import { setInitialTheme } from '../store/themeSlice';
 
 const Home = () => {
     const posts = useSelector(state => state.post.posts)
@@ -17,11 +17,21 @@ const Home = () => {
     const dispatch = useDispatch()
     const [activePosts, setActivePosts] = useState([])
 
-    // useEffect(() => {
-    //     if (postStatus === 'idle' || postStatus === 'succeeded') {
-    //         dispatch(fetchPosts()); 
-    //       }
-    // }, [navigate]);
+
+    useEffect(() => {
+        authService.getPreferences()
+        .then(theme => {
+        if (theme) {
+          document.querySelector('body').classList.add("dark")
+        } else {
+          document.querySelector('body').classList.add("light")
+        }
+        console.log("status", theme);
+        
+        dispatch(setInitialTheme(theme))
+      })
+      
+    }, [])
     
     useEffect(() => {
         if (postStatus === "loading") {
