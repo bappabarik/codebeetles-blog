@@ -24,6 +24,8 @@ import LikedPosts from './pages/LikedPosts.jsx'
 import SavedPosts from './pages/SavedPosts.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import MyPosts from './pages/MyPosts.jsx'
+import EmailVerification from './pages/EmailVerification.jsx'
+import EmailConfirmation from './pages/EmailConfirmation.jsx'
 
 const router = createBrowserRouter([
   {
@@ -145,6 +147,14 @@ const router = createBrowserRouter([
         {
             path: "/post/:slug",
             element: <Post />,
+        },
+        {
+            path: "/verify-email",
+            element: <EmailVerification />,
+        },
+        {
+            path: "/confirm-email",
+            element: <EmailConfirmation />,
         },
     ],
 },

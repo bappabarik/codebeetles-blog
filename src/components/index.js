@@ -15,6 +15,7 @@ import AuthLayout from "./AuthLayout"
 import Loader from "./Loader";
 import Theme from "./Theme";
 import Search from "./Search";
+import ProfileComponent from "./ProfileComponent";
 
 export {
     Header,
@@ -34,4 +35,5 @@ export {
     Loader,
     Theme,
     Search,
+    ProfileComponent
 }

@@ -126,7 +126,11 @@ const Post = () => {
     useEffect(() => {
         if (post) {
             sdkService.getUserName(post.userId)
-            .then(name => setAuthor(name))
+            .then(data => {
+                console.log(data)
+                
+                setAuthor(data.name)
+            })
             .catch(error => console.log(error))
 
             formatDateTime(`${post.$createdAt}`)

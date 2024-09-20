@@ -16,7 +16,7 @@ export class SdkService{
     async getUserName(userId){
         try {
             const response = await this.users.get(userId);            
-            return response.name
+            return response
         } catch (error) {
             console.log(`ERROR:: getUserName :: ${error}`);
             

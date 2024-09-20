@@ -46,6 +46,28 @@ export class AuthService {
         return null;
     }
 
+    async verifyEmail(){
+        try {
+            return await this.account.createVerification(
+                'https://codebeetles-blog.vercel.app/confirm-email'
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: verifyEmail :: error", error);
+        }
+    }
+
+    async updateVerification(userId, key){
+        try {
+           return await this.account.updateVerification(
+            userId,
+            key
+           )
+        } catch (error) {
+            return Promise.reject(error)
+            console.log("Appwrite serive :: updateVerification :: error", error);
+        }
+    }
+
     async logout() {
 
         try {

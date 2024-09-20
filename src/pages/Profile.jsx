@@ -1,9 +1,10 @@
 import React from 'react';
+import { ProfileComponent } from '../components';
 
 const Profile = () => {
     return (
-        <div className='h-screen flex items-center justify-center dark:text-white'>
-            <h1>Profile page is under construction</h1>
+        <div className=' dark:text-white'>
+            <ProfileComponent />
         </div>
     );
 }

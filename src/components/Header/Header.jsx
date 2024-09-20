@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {Container, Logo, LogoutBtn, Theme} from '../index'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { act } from 'react';
 
 
 const Header = () => {
