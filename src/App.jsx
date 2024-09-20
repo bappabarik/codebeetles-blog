@@ -83,7 +83,7 @@ function App() {
         <LoadingBar color="#5AFF00" progress={progress}  />
         <main className="p-5 md:mt-20 mt-10">
           {
-            !emailVerified && !userData.emailVerification && <div className='p-3 mb-2 bg-gradient-to-r from-orange-400 to-orange-600 w-full text-white flex justify-between items-center'><span>Your email address is not verified please <button onClick={verifyEmail} className=' underline'>verify</button></span>
+            !emailVerified && !userData?.emailVerification && status && <div className='p-3 mb-2 bg-gradient-to-r from-orange-400 to-orange-600 w-full text-white flex justify-between items-center'><span>Your email address is not verified please <button onClick={verifyEmail} className=' underline'>verify</button></span>
             <button onClick={() => setEmailVerified(true)}>X</button>
             </div>
           }
