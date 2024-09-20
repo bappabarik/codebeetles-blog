@@ -150,11 +150,19 @@ const router = createBrowserRouter([
         },
         {
             path: "/verify-email",
-            element: <EmailVerification />,
+            element: (
+                <AuthLayout authentication>
+                    <EmailVerification />
+                </AuthLayout>
+        ),
         },
         {
             path: "/confirm-email",
-            element: <EmailConfirmation />,
+            element:(
+                <AuthLayout authentication>
+                    <EmailConfirmation />
+                </AuthLayout>
+                ), 
         },
     ],
 },
