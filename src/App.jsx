@@ -27,6 +27,25 @@ function App() {
 }, [dispatch, status])
 
 
+useEffect(() => {
+  if (status) {
+    authService.getPreferences()
+    .then(theme => {
+    if (theme) {
+      document.querySelector('body').classList.add("dark")
+    } else {
+      document.querySelector('body').classList.add("light")
+    }
+    console.log("status", theme);
+    
+    dispatch(setInitialTheme(theme))
+  })
+  } else {
+    dispatch(setInitialTheme(false))
+  }
+
+}, [status])
+
   useEffect(() => {
     dispatch(addProgress(0))
     authService.getCurrentUser()

@@ -17,21 +17,6 @@ const Home = () => {
     const dispatch = useDispatch()
     const [activePosts, setActivePosts] = useState([])
 
-
-    useEffect(() => {
-        authService.getPreferences()
-        .then(theme => {
-        if (theme) {
-          document.querySelector('body').classList.add("dark")
-        } else {
-          document.querySelector('body').classList.add("light")
-        }
-        console.log("status", theme);
-        
-        dispatch(setInitialTheme(theme))
-      })
-      
-    }, [])
     
     useEffect(() => {
         if (postStatus === "loading") {
