@@ -1,10 +1,13 @@
-import React from 'react';
-import Container from './Container/Container';
+import React, { useState, useEffect } from 'react';
+import Container from '../Container/Container';
 import { useSelector } from 'react-redux';
+import Input from '../Input';
+import ChangeName from './ChangeName';
 
 const ProfileComponent = () => {
     const userData = useSelector(state => state.auth.userData)
-    console.log(userData);
+
+    
     
     return (
         <div className='h-screen'>
@@ -15,6 +18,9 @@ const ProfileComponent = () => {
                     </div>
                     <div className="">
                         <span className='text-3xl font-semibold'>{userData.name}</span>
+                    </div>
+                    <div className="">
+                            <ChangeName {...userData} />
                     </div>
                 </div>
             </Container>

@@ -40,10 +40,18 @@ export class AuthService {
         try {
             return await this.account.get();
         } catch (error) {
-            console.log("Appwrite serive :: getCurrentUser :: error", error);
+            console.log("Appwrite service :: getCurrentUser :: error", error);
         }
 
         return null;
+    }
+
+    async updateName(newName){
+        try {
+            return await this.account.updateName(newName)
+        } catch (error) {
+            console.log("Appwrite service :: updateName :: error", error);
+        }
     }
 
     async verifyEmail(){
@@ -52,7 +60,7 @@ export class AuthService {
                 'https://codebeetles-blog.vercel.app/confirm-email'
             )
         } catch (error) {
-            console.log("Appwrite serive :: verifyEmail :: error", error);
+            console.log("Appwrite service :: verifyEmail :: error", error);
         }
     }
 
@@ -64,7 +72,7 @@ export class AuthService {
            )
         } catch (error) {
             return Promise.reject(error)
-            console.log("Appwrite serive :: updateVerification :: error", error);
+            console.log("Appwrite service :: updateVerification :: error", error);
         }
     }
 
@@ -73,7 +81,7 @@ export class AuthService {
         try {
             await this.account.deleteSessions();
         } catch (error) {
-            console.log("Appwrite serive :: logout :: error", error);
+            console.log("Appwrite service :: logout :: error", error);
         }
     }
 
