@@ -35,7 +35,7 @@ const ChangeName = ({name}) => {
                     
                     <button onClick={handleChange}>
                         {
-                            editName ? <i className="fa-solid fa-pen-to-square"></i> : <i className="fa-solid fa-check"></i>
+                            editName ? <i className="fa-solid fa-pen-to-square"></i> : <i className="fa-solid fa-check text-green-500"></i>
                         }
                     </button>
 
