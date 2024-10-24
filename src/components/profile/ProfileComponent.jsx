@@ -3,6 +3,7 @@ import Container from '../Container/Container';
 import { useSelector } from 'react-redux';
 import Input from '../Input';
 import ChangeName from './ChangeName';
+import ChangeEmailComp from './ChangeEmailComp';
 
 const ProfileComponent = () => {
     const userData = useSelector(state => state.auth.userData)
@@ -21,6 +22,7 @@ const ProfileComponent = () => {
                     </div>
                     <div className="">
                             <ChangeName {...userData} />
+                            <ChangeEmailComp {...userData} />
                     </div>
                 </div>
             </Container>

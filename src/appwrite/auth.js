@@ -54,6 +54,18 @@ export class AuthService {
         }
     }
 
+    async updateEmail({newEmail, password}){
+        try {
+            return await this.account.updateEmail(
+                newEmail,
+                password
+            )
+            
+        } catch (error) {
+            console.log("Appwrite service :: updateEmail :: error", error); 
+        }
+    }
+
     async verifyEmail(){
         try {
             return await this.account.createVerification(
