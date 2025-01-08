@@ -3,6 +3,7 @@ import authSlice from './authSlice';
 import progressBarSlice from './progressBarSlice';
 import themeSlice from './themeSlice';
 import postSlice from './postSlice';
+import editorSlice from './editorSlice'
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
         auth: authSlice,
         progressBar: progressBarSlice,
         theme: themeSlice,
-        post: postSlice
+        post: postSlice,
+        editor: editorSlice
     }
 })
 

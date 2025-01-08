@@ -5,6 +5,7 @@ import appwriteService from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPost, removePost, updatePost } from '../../store/postSlice';
+import {AiHelper} from "../index";
 
 const PostForm = ({post}) => {
     const {register, handleSubmit, watch, setValue, control, getValues, formState: {errors, isSubmitting}} = useForm({
@@ -15,6 +16,7 @@ const PostForm = ({post}) => {
             status: post?.status || 'active'
         }
     })
+    const [isActive, setIsActive] = useState(false);
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
@@ -93,13 +95,22 @@ const PostForm = ({post}) => {
             if (name === "title" && value.title.length <= 36) {
                 setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
+            // if (name === "content") {
+            //     // Convert HTML to plain text
+            //     const tempDiv = document.createElement('div');
+            //     tempDiv.innerHTML = value.content; // This will be HTML
+            //     const plainText = tempDiv.textContent || tempDiv.innerText;
+            //     console.log(plainText);  // Logs the plain text
+            // }
         });
 
         return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue]);
+
        
 
     return (
+        <>
         <form onSubmit={handleSubmit(submit)} className='flex md:flex-row flex-wrap flex-col md:items-start items-center w-full'>
             <div className="md:w-2/3 w-full px-2">
             <Input 
@@ -131,6 +142,12 @@ const PostForm = ({post}) => {
             {
                 errors.slug && (<span className='text-red-600 mt-2'>{errors.slug.message}</span>)
             }
+            <Button className="w-8 rounded-md py-1 self-start" onClick={(e) =>{ 
+            e.preventDefault()
+             setIsActive(true)}}
+            >
+              AI
+            </Button>
             <RTE 
             label="Content :"
             name="content"
@@ -173,6 +190,10 @@ const PostForm = ({post}) => {
                 
             </div>
         </form>
+        <div className="md:w-1/2 w-full self-start relative mt-5">
+          {isActive && <AiHelper setIsActive={setIsActive} />}
+        </div>
+        </>
     );
 }
 

@@ -16,6 +16,7 @@ import Loader from "./Loader";
 import Theme from "./Theme";
 import Search from "./Search";
 import ProfileComponent from "./profile/ProfileComponent";
+import AiHelper from "./AI/AiHelper";
 
 export {
     Header,
@@ -35,5 +36,6 @@ export {
     Loader,
     Theme,
     Search,
-    ProfileComponent
+    ProfileComponent,
+    AiHelper
 }

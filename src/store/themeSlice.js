@@ -15,8 +15,6 @@ const themeSlice = createSlice({
         },
         setInitialTheme: (state, action) => {
             state.theme = action.payload;
-            console.log(action.payload);
-            
         }
     }
 })

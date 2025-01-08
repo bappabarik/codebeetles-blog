@@ -5,6 +5,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { EditorProvider } from './Context/EditorContext.jsx'
 import Home from './pages/Home.jsx'
 import { AuthLayout } from './components/index.js'
 import ActivePosts from './pages/ActivePosts.jsx'
@@ -171,7 +172,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-    <RouterProvider router={router}/>
+        <EditorProvider>
+            <RouterProvider router={router}/>
+        </EditorProvider>
     </Provider>
   </React.StrictMode>,
 )

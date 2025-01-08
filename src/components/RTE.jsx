@@ -2,10 +2,18 @@ import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
 import conf from "../conf/conf";
+import { useEditor } from "../Context/EditorContext";
 
 export default function RTE({ name, control, label, defaultValue = "" }) {
+  const { setEditorInstance } = useEditor()
+
+  const handleEditorInit = (evt, editor) => {
+    setEditorInstance(editor)
+    console.log("Editor initialized:", editor);
+  };
+
   return (
-    <div className="w-full text-left">
+    <div className="w-full text-left flex flex-col gap-1 relative ">
       {label && (
         <label className="inline-block mb-1 pl-1 dark:text-white py-2">
           {label}
@@ -19,12 +27,16 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
             value: true,
             message: "This field is required",
           },
-          minLength: {value: 100, message: "Minimum length of the content should be 100 characters"}
+          minLength: {
+            value: 100,
+            message: "Minimum length of the content should be 100 characters",
+          },
         }}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
             <Editor
               apiKey={conf.rteapikey}
+              onInit={handleEditorInit}
               value={value || defaultValue}
               init={{
                 height: 500,

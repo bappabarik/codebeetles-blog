@@ -36,7 +36,6 @@ useEffect(() => {
     } else {
       document.querySelector('body').classList.add("light")
     }
-    console.log("status", theme);
     
     dispatch(setInitialTheme(theme))
   })
@@ -68,14 +67,12 @@ useEffect(() => {
 
   const verifyEmail = () => {
     if (!userData.emailVerification) {
-      console.log("running...");
       const res = authService.verifyEmail()
       res.then(data => {
         if (data) {
           setEmailVerified(true)
           navigate('/verify-email')
         }
-      console.log(data)
     }
     )
     }
