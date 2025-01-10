@@ -112,16 +112,16 @@ const AiHelper = ({ setIsActive }) => {
                 Insert
               </Button>
               <Button
-                className={`px-4 py-2 font-bold rounded-md hover:bg-gray-200 text-sm ${disabled ? 'cursor-not-allowed bg-gray-200 text-gray-400' : 'bg-gray-300'}`}
-                textColor={"text-slate-800"}
+                className={`px-4 py-2 font-bold rounded-md hover:bg-gray-200 text-sm ${disabled ? 'cursor-not-allowed bg-gray-200' : 'bg-gray-300'}`}
+                textColor={disabled ? 'text-gray-400' : 'text-slate-800'}
                 disabled={disabled}
                 onClick={handleTryAgain}
               >
                 Try again
               </Button>
               <Button
-                className={`px-4 py-2 font-bold rounded-md hover:bg-gray-200 text-sm ${abortBtnDisable ? 'cursor-not-allowed bg-gray-200 text-gray-400' : 'bg-gray-300'}`}
-                textColor={"text-slate-800"}
+                className={`px-4 py-2 font-bold rounded-md hover:bg-gray-200 text-sm ${abortBtnDisable ? 'cursor-not-allowed bg-gray-200' : 'bg-gray-300'}`}
+                textColor={abortBtnDisable ? 'text-gray-400' : 'text-slate-800'}
                 onClick={handleAbort}
                 disabled={abortBtnDisable}
               >
