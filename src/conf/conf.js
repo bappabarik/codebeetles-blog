@@ -8,7 +8,8 @@ const conf = {
     appwriteActiveReadersCollectionId: String(import.meta.env.VITE_APPWRITE_ACTIVE_READERS_COLLECTION_ID),
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
     appwriteApiKey: String(import.meta.env.VITE_API_KEY),
-    rteapikey: String(import.meta.env.VITE_RTE_API_KEY)
+    rteapikey: String(import.meta.env.VITE_RTE_API_KEY),
+    proxyServer: String(import.meta.env.VITE_PROXY_SERVER)
 
 }
 

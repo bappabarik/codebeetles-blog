@@ -1,7 +1,8 @@
 import { io } from "socket.io-client"
+import conf from "../conf/conf";
 
 // Initialize the socket without connecting
-const socket = io("http://localhost:3000/", {
+const socket = io(conf.proxyServer, {
     autoConnect: false, // Prevent automatic connection
 });
 
