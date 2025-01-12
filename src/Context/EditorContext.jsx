@@ -4,9 +4,10 @@ const EditorContext = createContext();
 
 export const EditorProvider = ({ children }) => {
   const [editorInstance, setEditorInstance] = useState(null);
+  const [isActive, setIsActive] = useState(false)
 
   return (
-    <EditorContext.Provider value={{ editorInstance, setEditorInstance }}>
+    <EditorContext.Provider value={{ editorInstance, setEditorInstance, isActive, setIsActive }}>
       {children}
     </EditorContext.Provider>
   );

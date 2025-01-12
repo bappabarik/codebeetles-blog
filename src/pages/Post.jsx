@@ -47,7 +47,7 @@ const Post = () => {
             .then((post) => {
                 if(post) {
                     setPost(post)
-
+                    console.log(post.content)
                     //after getting the post loading the likes in the state in number formate
                     setLikes(post.likes)
                     
@@ -383,10 +383,8 @@ const Post = () => {
                     className='rounded-xl object-cover bg-contain' width="600"
                     />
                 </div>
-                <div className=" ">
-                    <div className="browser-css dark:bg-slate-800 bg-gray-100 shadow-md dark:text-white p-6 rounded-md">
-                        {parse(post.content)}
-                    </div>
+                <div className=" dark:bg-gray-700 bg-gray-100 shadow-md  w-full rounded-md py-4" >
+                        <p className='browser-css prose dark:text-white m-auto'>{parse(post.content)}</p>
                 </div>
                 <div className="flex gap-4 items-center w-full justify-between">
                     <div className="flex gap-4 items-center">

@@ -10,7 +10,7 @@ import Button from "../Button";
 import ReactMarkdown from "react-markdown";
 import { useEditor } from "../../Context/EditorContext";
 
-const AiHelper = ({ setIsActive }) => {
+const AiHelper = () => {
   const {
     register,
     handleSubmit,
@@ -24,11 +24,10 @@ const AiHelper = ({ setIsActive }) => {
   const [loading, setLoading] = useState(false)
   const userData = useSelector((state) => state.auth.userData);
   const suggestionContainer = useRef(null);
-  const { editorInstance } = useEditor();
+  const { editorInstance, setIsActive } = useEditor();
 
   const submit = (data) => {
     setLoading(true)
-    // console.log("received data", data);
     setCurrentPrompt(data);
     socket.emit("prompt", data.prompt);
     setSuggestion("");
@@ -46,7 +45,6 @@ const AiHelper = ({ setIsActive }) => {
 
   const handleInsert = () => {
     const data = document.querySelector(".suggestion").innerHTML;
-    console.log(data);
     if (editorInstance) {
       editorInstance.insertContent(data);
     }
@@ -55,11 +53,11 @@ const AiHelper = ({ setIsActive }) => {
 
   useEffect(() => {
     connectWithUserId(userData.$id);
+    console.log(editorInstance.getContent());
   }, [userData]);
 
   useEffect(() => {
     socket.on("suggestion", (data) => {
-      // console.log(suggestion);
       setLoading(false)
       setSuggestion((prev) => prev + data);
       setDisabled(true);
@@ -82,7 +80,7 @@ const AiHelper = ({ setIsActive }) => {
   }, [suggestion]);
 
   return (
-    <div className="w-full bg-white rounded-lg px-4 py-2 absolute z-10 md:bottom-10 bottom-72 md:left-28 space-y-2 drop-shadow-[0_0_24px_rgba(8,23,53,0.16)]">
+    <div className="w-full bg-white rounded-lg px-4 py-2 absolute z-10 md:bottom-14 bottom-72 md:left-10 space-y-2 drop-shadow-[0_0_24px_rgba(8,23,53,0.16)]">
       {
         loading && <div className="absolute w-full h-full bg-gray-300 opacity-80 flex justify-center items-center rounded-lg left-0 top-0 overflow-hidden space-x-1">
         <span className="block w-2 h-2 bg-black rounded-full animate-bounce	 "></span>
@@ -92,10 +90,10 @@ const AiHelper = ({ setIsActive }) => {
       }
 
       <div className="flex flex-col justify-between">
-        <div className="flex justify-between rounded-md">
+        <div className="flex justify-between rounded-md mb-2">
           <h1 className="text-xl">AI Assistant</h1>
           <Button
-            className="w-8 rounded-md py-1 bg-transparent hover:bg-slate-200"
+            className="w-8 rounded-md py-1 bg-transparent hover:bg-slate-200 text-black"
             onClick={(e) => {
               e.preventDefault();
               setIsActive(false);
@@ -154,7 +152,7 @@ const AiHelper = ({ setIsActive }) => {
       </div>
       <form className="w-full flex gap-2" onSubmit={handleSubmit(submit)}>
         <Input
-          placeholder="Ask AI"
+          placeholder="Ask AI to edit or generate"
           {...register("prompt", {
             required: { value: true },
             minLength: { value: 4 },

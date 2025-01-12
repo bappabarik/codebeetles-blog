@@ -5,11 +5,15 @@ import conf from "../conf/conf";
 import { useEditor } from "../Context/EditorContext";
 
 export default function RTE({ name, control, label, defaultValue = "" }) {
-  const { setEditorInstance } = useEditor()
+  const { setEditorInstance, setIsActive } = useEditor()
 
   const handleEditorInit = (evt, editor) => {
     setEditorInstance(editor)
-    console.log("Editor initialized:", editor);
+    editor.ui.registry.addButton('AI', {
+      icon: 'AI',
+      tooltip: 'Ask AI',
+      onAction: () => setIsActive(true)
+    });
   };
 
   return (
@@ -63,7 +67,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                 ],
                 toolbar:
                   "undo redo | blocks | " +
-                  "bold italic forecolor | alignleft aligncenter " +
+                  "AI | bold italic forecolor | alignleft aligncenter " +
                   "alignright alignjustify | bullist numlist outdent indent | " +
                   "removeformat | help",
                 content_style:

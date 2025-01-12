@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPost, removePost, updatePost } from '../../store/postSlice';
 import {AiHelper} from "../index";
+import { useEditor } from '../../Context/EditorContext';
 
 const PostForm = ({post}) => {
     const {register, handleSubmit, watch, setValue, control, getValues, formState: {errors, isSubmitting}} = useForm({
@@ -16,12 +17,14 @@ const PostForm = ({post}) => {
             status: post?.status || 'active'
         }
     })
-    const [isActive, setIsActive] = useState(false);
+    // const [isActive, setIsActive] = useState(false);
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
+
+    const { isActive } = useEditor()
 
     const submit = async (data) => {      
         setLoading(true)
@@ -142,12 +145,6 @@ const PostForm = ({post}) => {
             {
                 errors.slug && (<span className='text-red-600 mt-2'>{errors.slug.message}</span>)
             }
-            <Button className="w-8 rounded-md py-1 self-start" onClick={(e) =>{ 
-            e.preventDefault()
-             setIsActive(true)}}
-            >
-              AI
-            </Button>
             <RTE 
             label="Content :"
             name="content"
@@ -190,8 +187,8 @@ const PostForm = ({post}) => {
                 
             </div>
         </form>
-        <div className="md:w-1/2 w-full self-start relative mt-5">
-          {isActive && <AiHelper setIsActive={setIsActive} />}
+        <div className="md:w-[60%] w-full self-start relative mt-5 left-0">
+          {isActive && <AiHelper />}
         </div>
         </>
     );
