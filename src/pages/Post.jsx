@@ -383,8 +383,8 @@ const Post = () => {
                     className='rounded-xl object-cover bg-contain' width="600"
                     />
                 </div>
-                <div className=" dark:bg-gray-700 bg-gray-100 shadow-md  w-full rounded-md py-4" >
-                        <p className='browser-css prose dark:text-white m-auto'>{parse(post.content)}</p>
+                <div className="browser-css container dark:bg-gray-700 bg-gray-100 m-auto md:shadow-md text-wrap w-auto rounded-md py-4 dark:text-white prose overflow-auto px-5 md:prose-lg prose-sm prose-dark" >
+                        {parse(post.content)}
                 </div>
                 <div className="flex gap-4 items-center w-full justify-between">
                     <div className="flex gap-4 items-center">
