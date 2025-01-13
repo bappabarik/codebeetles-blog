@@ -93,13 +93,13 @@ const AiHelper = () => {
         <div className="flex justify-between rounded-md mb-2">
           <h1 className="text-xl">AI Assistant</h1>
           <Button
-            className="w-8 rounded-md py-1 bg-transparent hover:bg-slate-200 text-black"
+            className="w-8 rounded-md py-1 bg-transparent hover:bg-slate-200"
             onClick={(e) => {
               e.preventDefault();
               setIsActive(false);
             }}
           >
-            ✖
+            <i class="fa-solid fa-xmark text-black text-lg"></i>
           </Button>
         </div>
         {suggestion && (
