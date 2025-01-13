@@ -9,6 +9,7 @@ import sdkService from '../appwrite/sdk';
 import { removePost, updatePost } from '../store/postSlice';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import LazyLoad from 'react-lazyload';
 
 const Post = () => {
     const [post, setPost] = useState(null);
@@ -379,9 +380,11 @@ const Post = () => {
                     </h1>
                 </div>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-                    <img src={appwriteService.getFilePreview(post.featuredImage)} alt={post.title}
-                    className='rounded-xl object-cover bg-contain' width="600"
-                    />
+                    <LazyLoad height={200} offset={100} once>
+                        <img src={appwriteService.getFilePreview(post.featuredImage)} alt={post.title}
+                        className='rounded-xl object-cover bg-contain' width="600"
+                        />
+                    </LazyLoad>
                 </div>
                 <div className="browser-css container dark:bg-gray-700 bg-gray-100 m-auto md:shadow-md text-wrap w-auto rounded-md py-4 dark:text-white prose overflow-auto px-5 md:prose-lg prose-sm prose-dark" >
                         {parse(post.content)}
