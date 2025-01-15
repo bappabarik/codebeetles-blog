@@ -9,9 +9,8 @@ import { useForm } from 'react-hook-form';
 const Signup = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const theme = useSelector(state => state.theme.theme)
     const [error, setError] = useState('')
-    const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm()
+    const {register, handleSubmit, setValue, formState: {errors, isSubmitting}} = useForm()
 
     const create = async(data) => {
         setError('')
@@ -22,6 +21,9 @@ const Signup = () => {
                 if (userData) dispatch(login(userData))
                 navigate('/')
             }
+            setValue("name", "")
+            setValue("email", "")
+            setValue("password", "")
         } catch (error) {
             setError(error.message)
         }

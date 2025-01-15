@@ -7,20 +7,12 @@ const Search = ({posts}) => {
     
     const handleSearch = (e) => {
         if (e.target.value.trim() !== '') {
-            console.log(e.target.value);
             const found = posts.filter((element) => element.title.toLowerCase().includes(e.target.value.toLowerCase()) || element.content.toLowerCase().includes(e.target.value.toLowerCase()));
-            console.log(found);
             setSearchResult(found)
         } else {
             setSearchResult([])
         }
     }
-
-    useEffect(() => {
-            searchResult.map(item => console.log(item.title)
-            )
-    }, [handleSearch])
-
     
 
     return (

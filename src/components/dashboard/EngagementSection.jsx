@@ -20,7 +20,7 @@ const EngagementSection = () => {
   return (
     <section className="w-full md:w-1/2 p-4 flex justify-between">
       <h2 className="text-lg font-semibold mb-4">Engagement Traffic Sources</h2>
-      <div className="w-full h-80">
+      <div className="w-full h-60">
         <Pie
           data={engagementData}
           options={{

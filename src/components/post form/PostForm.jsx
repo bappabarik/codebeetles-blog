@@ -98,13 +98,6 @@ const PostForm = ({post}) => {
             if (name === "title" && value.title.length <= 36) {
                 setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
-            // if (name === "content") {
-            //     // Convert HTML to plain text
-            //     const tempDiv = document.createElement('div');
-            //     tempDiv.innerHTML = value.content; // This will be HTML
-            //     const plainText = tempDiv.textContent || tempDiv.innerText;
-            //     console.log(plainText);  // Logs the plain text
-            // }
         });
 
         return () => subscription.unsubscribe();

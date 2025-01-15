@@ -32,17 +32,21 @@ const AllPosts = () => {
     }, []);
  
     return !loading ? (
-        <div className='w-full py-8'>
             <Container>
-                <div className="grid grid-cols-1 md:grid-cols-4">
-                {posts.map((post) => (
+            <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 gap-4">
+            <header className="w-full p-6 bg-green-600 text-white shadow-md">
+                <h1 className="text-2xl font-bold">All Posts</h1>
+            </header>
+
+            <main className="grid grid-cols-1 md:grid-cols-4">
+            {posts.map((post) => (
                     <div className="p-2 " key={post.$id}>
                         <PostCard {...post} />
                     </div>
                 ))}
-                </div>
+            </main>
+            </div>
             </Container>
-        </div>
     ) : (
         <div className=" h-screen w-full flex items-center justify-center">
             <Loader />

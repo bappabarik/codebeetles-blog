@@ -13,7 +13,6 @@ const EmailConfirmation = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    console.log(urlParams);
 
     const userId = urlParams.get('userId')
     const secret = urlParams.get('secret')

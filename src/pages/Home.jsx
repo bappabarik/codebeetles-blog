@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Container, Loader, Logo, PostCard, Search } from '../components';
+import { Button, Container, Loader, PostCard, Search } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProgress, setLoading } from '../store/progressBarSlice';
-import authService from '../appwrite/auth';
-import { setInitialTheme } from '../store/themeSlice';
 
 const Home = () => {
     const posts = useSelector(state => state.post.posts)
     const postStatus = useSelector(state => state.post.postStatus)
-    const error = useSelector(state => state.post.error)
-    const status = useSelector(state => state.auth.status)
     const loading = useSelector(state => state.progressBar.loading)
     const userData = useSelector(state => state.auth.userData)
     const navigate = useNavigate()
@@ -37,34 +33,7 @@ const Home = () => {
         }
         }
     }, [posts])
-    
 
-    if (!status) {
-        return (
-            <div className="w-full text-center ">
-            <Container>
-            <div className="min-h-screen flex items-center justify-center">
-            <div className="max-w-md w-full dark:bg-slate-800 bg-white shadow-lg rounded-lg p-8 flex flex-col items-center">
-                <h1 className="text-3xl font-bold dark:text-slate-100 text-center mb-1">Welcome to</h1>
-                <Logo width='300px' />
-                <p className="text-gray-500 text-center my-6">
-                Join us today to enjoy all the benefits of our platform. Please log in or sign up to get started!
-                </p>
-                <div className="flex justify-center space-x-4">
-                <Button
-                onClick={() => navigate('/login')} className='px-6 py-2 duration-200 hover:bg-opacity-90 rounded-md bg-blue-500 text-white text-lg m-2'>
-                    Log In
-                </Button>
-                <Button onClick={() => navigate('/signup')} className="px-6 py-2 duration-200 hover:bg-opacity-90 bg-green-600 rounded-md text-lg m-2">
-                    Sign Up
-                </Button>
-                </div>
-            </div>
-            </div>
-        </Container>
-        </div>
-    )
-    }
   
 
     return !loading ? (
@@ -96,8 +65,11 @@ const Home = () => {
                     <h1 className=' text-4xl font-bold leading-relaxed'>
                         Hi {" "}
                         {
-                            userData.name
-                        },
+                            userData ? userData.name : (<span>you are not logged in please <Button
+                                            onClick={() => navigate('/login')} className='px-6 py-2 duration-200 hover:bg-opacity-90 rounded-md bg-blue-500 text-white text-lg m-2'>
+                                                Log In
+                                            </Button></span>)
+                        }
                         <br/>
                         Welcome to Codebeetles Blog</h1>
                     <p>Unleash your coding potential with our latest tips, tutorials, and insights. Dive into the world of development and stay ahead with expert knowledge tailored for you.</p>
@@ -125,4 +97,3 @@ const Home = () => {
     }
 
 export default Home;
-// Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia expedita temporibus quibusdam sunt? Veritatis voluptatum sunt ea at omnis doloremque doloribus adipisci, explicabo quibusdam dignissimos esse officia debitis rem minima modi suscipit natus non fugiat in blanditiis assumenda quidem totam. Nulla dolorum veniam error fuga totam iste soluta quis repellendus placeat enim officia natus, cupiditate deserunt tempora incidunt inventore ipsam perferendis deleniti esse facere repellat ipsum laboriosam. Quo repellat laboriosam consequuntur qui eum officiis ad, maiores debitis magnam quas quod, quaerat deleniti. Omnis sit aliquid vel maxime, fugit iusto fugiat consectetur enim mollitia. Tempore sequi veritatis nam, at commodi nulla.

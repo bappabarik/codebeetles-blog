@@ -10,7 +10,7 @@ import { addProgress } from '../store/progressBarSlice';
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm()
+    const {register, handleSubmit, setValue, formState: {errors, isSubmitting}} = useForm()
     const [error, setError] = useState('')
 
     const login = async (data) => {
@@ -25,6 +25,8 @@ const Login = () => {
                 dispatch(addProgress(75))
                 navigate('/')
             }
+            setValue("email", "")
+            setValue("password", "")   
         } catch (error) {
             setError(error.message)
         }

@@ -44,27 +44,31 @@ const SavedPosts = () => {
     },[posts, userData.$id])
 
     if (!loading ) {
-        return  savedPosts.length > 0 ? (<div className='w-full py-8 max-h-full'>
+        return  savedPosts.length > 0 ? (
             <Container>
-                <div className="w-full flex justify-start items-start p-4 border-b-[1px] border-gray-500 mb-2">
-                    <h1 className='dark:text-white'>Saved Posts</h1>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-4">
-                {savedPosts?.map((post) => (
+            <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 gap-4">
+            <header className="w-full p-6 bg-green-600 text-white shadow-md">
+                <h1 className="text-2xl font-bold">Saved Posts</h1>
+            </header>
+
+            <main className="grid grid-cols-1 md:grid-cols-4">
+            {savedPosts?.map((post) => (
                     <div className="p-2 " key={post.$id}>
                         <PostCard {...post} />
                     </div>
                 ))}
-                </div>
-            </Container>
-        </div>) :  (
+            </main>
+            </div>
+            </Container>) :  (
             <Container>
-                <div className="w-full flex justify-start items-start p-4 border-b-[1px] border-gray-500 mb-2">
-                    <h1 className='dark:text-white'>Saved Posts</h1>
-                </div>
+            <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+            <header className="w-full p-6 bg-green-600 text-white shadow-md">
+                <h1 className="text-2xl font-bold">Saved Posts</h1>
+            </header>
                 <div className="w-full h-screen flex justify-center items-center p-4 border-b-[1px] border-gray-500 mb-2">
                     <h1 className='dark:text-white'>You don't have any posts saved yet</h1>
                 </div>
+            </div>
             </Container>
         )
     } else {
